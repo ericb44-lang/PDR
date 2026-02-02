@@ -1,0 +1,1864 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DTP Estimator Pro</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #1a1a1a 0%, #000000 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #000000 0%, #d4af37 100%);
+            color: white;
+            padding: 30px 20px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 24px;
+            margin-bottom: 5px;
+        }
+
+        .header p {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+
+        .tabs {
+            display: flex;
+            background: #f5f5f5;
+            border-bottom: 2px solid #e0e0e0;
+            position: relative;
+        }
+
+        .tab {
+            flex: 1;
+            padding: 15px;
+            text-align: center;
+            background: none;
+            border: none;
+            font-size: 14px;
+            font-weight: 600;
+            color: #666;
+            cursor: pointer;
+            transition: all 0.3s;
+            border-bottom: 3px solid transparent;
+        }
+
+        .tab.active {
+            color: #d4af37;
+            background: white;
+            border-bottom-color: #d4af37;
+        }
+
+        .settings-gear {
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: linear-gradient(90deg, #000000 0%, #d4af37 100%);
+            color: white;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            font-size: 20px;
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .settings-gear:hover {
+            transform: translateY(-50%) rotate(90deg);
+            box-shadow: 0 5px 15px rgba(212, 175, 55, 0.4);
+        }
+
+        .settings-gear:active {
+            transform: translateY(-50%) rotate(90deg) scale(0.95);
+        }
+
+        .tab-content {
+            display: none;
+            padding: 25px;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .section {
+            margin-bottom: 25px;
+        }
+
+        .section-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+        }
+
+        .section-title::before {
+            content: '';
+            width: 4px;
+            height: 20px;
+            background: #d4af37;
+            margin-right: 10px;
+            border-radius: 2px;
+        }
+
+        label {
+            display: block;
+            font-size: 14px;
+            color: #555;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 16px;
+            transition: all 0.3s;
+            background: white;
+            font-family: inherit;
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: #d4af37;
+            box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.1);
+        }
+
+        .input-group {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .input-wrapper {
+            margin-bottom: 15px;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(90deg, #000000 0%, #d4af37 100%);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            margin-top: 10px;
+        }
+
+        .btn:active {
+            transform: scale(0.98);
+        }
+
+        .btn:hover {
+            box-shadow: 0 10px 25px rgba(212, 175, 55, 0.3);
+        }
+
+        .btn-secondary {
+            background: linear-gradient(90deg, #000000 0%, #d4af37 100%);
+            color: white;
+            border: none;
+        }
+
+        .btn-secondary:hover {
+            box-shadow: 0 10px 25px rgba(212, 175, 55, 0.3);
+        }
+
+        .btn-danger {
+            background: linear-gradient(90deg, #000000 0%, #d4af37 100%);
+            color: white;
+        }
+
+        .btn-success {
+            background: linear-gradient(90deg, #000000 0%, #d4af37 100%);
+            color: white;
+        }
+
+        .btn-small {
+            padding: 8px 16px;
+            font-size: 14px;
+            width: auto;
+            display: inline-block;
+            margin: 5px 5px 5px 0;
+        }
+
+        .line-item {
+            background: #f9f9f9;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            border-left: 4px solid #d4af37;
+        }
+
+        .line-item-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .line-item-title {
+            font-weight: 600;
+            color: #333;
+            font-size: 15px;
+        }
+
+        .line-item-delete {
+            background: linear-gradient(90deg, #000000 0%, #d4af37 100%);
+            color: white;
+            border: none;
+            padding: 5px 12px;
+            border-radius: 5px;
+            font-size: 12px;
+            cursor: pointer;
+        }
+
+        .line-item-details {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 10px;
+            font-size: 13px;
+            color: #666;
+        }
+
+        .line-item-total {
+            text-align: right;
+            font-weight: 600;
+            color: #d4af37;
+            margin-top: 8px;
+            font-size: 16px;
+        }
+
+        .pricing-item {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr auto;
+            gap: 10px;
+            align-items: center;
+            padding: 12px;
+            background: #f9f9f9;
+            border-radius: 8px;
+            margin-bottom: 10px;
+        }
+
+        .pricing-item input {
+            padding: 8px 10px;
+            font-size: 14px;
+        }
+
+        .estimate-summary {
+            background: linear-gradient(135deg, #f6f9fc 0%, #eef2f7 100%);
+            padding: 20px;
+            border-radius: 15px;
+            margin-top: 20px;
+        }
+
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .summary-row:last-child {
+            border-bottom: none;
+            margin-top: 10px;
+            padding-top: 15px;
+            border-top: 2px solid #d4af37;
+        }
+
+        .summary-label {
+            font-size: 14px;
+            color: #666;
+        }
+
+        .summary-value {
+            font-size: 14px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .total-label {
+            font-size: 18px;
+            font-weight: 700;
+            color: #d4af37;
+        }
+
+        .total-value {
+            font-size: 24px;
+            font-weight: 700;
+            color: #d4af37;
+        }
+
+        .toast {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #4caf50;
+            color: white;
+            padding: 15px 25px;
+            border-radius: 10px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+            display: none;
+            z-index: 1000;
+        }
+
+        .toast.show {
+            display: block;
+            animation: toastIn 0.3s ease;
+        }
+
+        @keyframes toastIn {
+            from {
+                opacity: 0;
+                transform: translateX(-50%) translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(-50%) translateY(0);
+            }
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 2000;
+            overflow-y: auto;
+            padding: 20px;
+        }
+
+        .modal.show {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 15px;
+            max-width: 500px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            animation: modalSlideIn 0.3s ease;
+        }
+
+        @keyframes modalSlideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .modal-header {
+            padding: 20px;
+            border-bottom: 2px solid #e0e0e0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-header h2 {
+            font-size: 20px;
+            color: #333;
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: 24px;
+            color: #999;
+            cursor: pointer;
+            padding: 0;
+            width: 30px;
+            height: 30px;
+        }
+
+        .modal-body {
+            padding: 20px;
+        }
+
+        .document-preview {
+            background: white;
+            padding: 30px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            font-family: 'Courier New', monospace;
+            font-size: 12px;
+            line-height: 1.6;
+            white-space: pre-wrap;
+            margin-bottom: 15px;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 40px 20px;
+            color: #999;
+        }
+
+        .empty-state-icon {
+            font-size: 48px;
+            margin-bottom: 15px;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-left: 8px;
+        }
+
+        .badge-unit {
+            background: #fff9e6;
+            color: #d4af37;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🔧 DTP Estimator Pro</h1>
+            <p>Professional estimates & work orders</p>
+        </div>
+
+        <div class="tabs">
+            <button class="tab active" onclick="switchTab('estimate')">New Estimate</button>
+            <button class="tab" onclick="switchTab('pricing')">Pricing Database</button>
+            <button class="settings-gear" onclick="openSettings()" title="Settings">⚙️</button>
+        </div>
+
+        <!-- ESTIMATE TAB -->
+        <div id="estimateTab" class="tab-content active">
+            <div class="section">
+                <div class="section-title">Project Information</div>
+                <div class="input-wrapper">
+                    <label for="projectName">Project Number - Name</label>
+                    <input type="text" id="projectName" placeholder="e.g., 2024-001 - Unit 204 Water Damage">
+                </div>
+                <div class="input-wrapper">
+                    <label for="customerName">Customer Name</label>
+                    <input type="text" id="customerName" placeholder="e.g., John Smith">
+                </div>
+                <div class="input-wrapper">
+                    <label for="projectNotes">Project Notes (Optional)</label>
+                    <textarea id="projectNotes" placeholder="Additional details about the project..."></textarea>
+                </div>
+            </div>
+
+            <div class="section">
+                <div class="section-title">Gross Margin Settings</div>
+                <div class="input-group">
+                    <div>
+                        <label for="grossMarginPercent">Desired Gross Margin (%)</label>
+                        <input type="number" id="grossMarginPercent" step="0.1" min="0" max="100" value="30" onchange="updateMarginCalculations()">
+                    </div>
+                    <div>
+                        <label for="subPayoutPercent">Subcontractor Payout (%)</label>
+                        <input type="number" id="subPayoutPercent" step="0.1" min="0" max="100" value="70" readonly style="background: #f5f5f5;">
+                    </div>
+                </div>
+                <div style="background: #fff9e6; padding: 12px; border-radius: 8px; font-size: 13px; color: #666; margin-top: 10px;">
+                    💡 <strong>How it works:</strong> The Work Order total will be calculated at <span id="payoutDisplay">70</span>% of your fully marked-up estimate, leaving <span id="marginDisplay">30</span>% as your gross margin.
+                </div>
+            </div>
+
+            <div class="section">
+                <div class="section-title">Overhead & Profit (for Customer)</div>
+                <div class="input-group">
+                    <div>
+                        <label for="overheadPercent">Overhead (%)</label>
+                        <input type="number" id="overheadPercent" step="0.1" min="0" max="100" value="10" onchange="updateMarginCalculations()">
+                    </div>
+                    <div>
+                        <label for="profitPercent">Profit (%)</label>
+                        <input type="number" id="profitPercent" step="0.1" min="0" max="100" value="10" onchange="updateMarginCalculations()">
+                    </div>
+                </div>
+                <div style="background: #fff9e6; padding: 12px; border-radius: 8px; font-size: 13px; color: #666; margin-top: 10px;">
+                    💡 <strong>How it works:</strong> Overhead & Profit are added to your line items to create the customer price. Example: $1,000 in costs + 10% overhead ($100) + 10% profit ($100) = $1,200 customer total. Your subcontractor gets paid based on this fully marked-up amount.
+                </div>
+            </div>
+
+            <div class="section">
+                <div class="section-title">Add Line Items</div>
+                <div class="input-wrapper">
+                    <label for="materialSelect">Labor/Material</label>
+                    <select id="materialSelect">
+                        <option value="">Select labor or material...</option>
+                    </select>
+                </div>
+                <div class="input-group">
+                    <div>
+                        <label for="quantity">Quantity</label>
+                        <input type="number" id="quantity" step="0.01" min="0" placeholder="0">
+                    </div>
+                    <div>
+                        <label>Unit Price</label>
+                        <input type="text" id="unitPrice" readonly style="background: #f5f5f5;">
+                    </div>
+                </div>
+                <button class="btn" onclick="addLineItem()">+ Add Line Item</button>
+            </div>
+
+            <div class="section" id="lineItemsSection" style="display: none;">
+                <div class="section-title">Line Items</div>
+                <div id="lineItemsList"></div>
+            </div>
+
+            <div id="estimateSummary" style="display: none;">
+                <div class="estimate-summary">
+                    <div class="summary-row">
+                        <span class="summary-label">Materials & Labor Subtotal:</span>
+                        <span class="summary-value" id="subtotal">$0.00</span>
+                    </div>
+                    <div class="summary-row">
+                        <span class="summary-label">Overhead (<span id="overheadPercentDisplay">10</span>%):</span>
+                        <span class="summary-value" id="overheadAmount">$0.00</span>
+                    </div>
+                    <div class="summary-row">
+                        <span class="summary-label">Profit (<span id="profitPercentDisplay">10</span>%):</span>
+                        <span class="summary-value" id="profitAmount">$0.00</span>
+                    </div>
+                    <div class="summary-row">
+                        <span class="total-label">Customer Total:</span>
+                        <span class="total-value" id="grandTotal">$0.00</span>
+                    </div>
+                    <div class="summary-row" style="background: #f0f0f0; margin: 10px -20px 0 -20px; padding: 10px 20px; border-radius: 8px;">
+                        <span class="summary-label">Subcontractor Payout (<span id="payoutPercentDisplay">70</span>%):</span>
+                        <span class="summary-value" style="color: #d4af37; font-weight: 700;" id="subPayout">$0.00</span>
+                    </div>
+                    <div class="summary-row" style="background: #f0f0f0; margin: 0 -20px -20px -20px; padding: 10px 20px 20px 20px; border-radius: 0 0 8px 8px;">
+                        <span class="summary-label">Your Gross Margin (<span id="marginPercentDisplay">30</span>%):</span>
+                        <span class="summary-value" style="color: #d4af37; font-weight: 700;" id="grossMargin">$0.00</span>
+                    </div>
+                </div>
+                <button class="btn btn-success" onclick="showDocumentModal('workorder')">📋 Create Work Order (for Subcontractor)</button>
+                <button class="btn btn-secondary" onclick="showDocumentModal('changeorder')">📄 Create Change Order (for Customer)</button>
+                <button class="btn" onclick="saveCurrentEstimate()">💾 Save This Estimate</button>
+                <button class="btn btn-secondary" onclick="createNewEstimate()">📝 Create New Estimate</button>
+            </div>
+        </div>
+
+        <!-- PRICING DATABASE TAB -->
+        <div id="pricingTab" class="tab-content">
+            <div class="section">
+                <div class="section-title">Manage Pricing</div>
+                <button class="btn" onclick="addPricingItem()">+ Add New Item</button>
+                <button class="btn btn-secondary" onclick="viewSavedEstimates()">📁 View Saved Estimates</button>
+            </div>
+
+            <div class="section">
+                <div id="pricingList"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Document Preview Modal -->
+    <div id="documentModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modalTitle">Document Preview</h2>
+                <button class="modal-close" onclick="closeDocumentModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div id="documentPreview" class="document-preview"></div>
+                <button class="btn btn-success" onclick="downloadPDF()">📥 Download PDF</button>
+                <button class="btn" onclick="copyDocument()">📋 Copy to Clipboard</button>
+                <button class="btn btn-secondary" onclick="shareDocument()">📤 Share</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Settings Modal -->
+    <div id="settingsModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>⚙️ Settings</h2>
+                <button class="modal-close" onclick="closeSettings()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="section">
+                    <div class="section-title">Company Logo</div>
+                    <div class="input-wrapper">
+                        <label for="logoUpload">Upload Company Logo</label>
+                        <input type="file" id="logoUpload" accept="image/*" onchange="handleLogoUpload(event)" style="padding: 10px;">
+                    </div>
+                    <div id="logoPreview" style="display: none; margin-top: 15px; text-align: center;">
+                        <img id="logoImage" style="max-width: 200px; max-height: 100px; border: 2px solid #e0e0e0; border-radius: 10px; padding: 10px; background: white;">
+                        <div style="margin-top: 10px;">
+                            <button class="btn btn-danger btn-small" onclick="removeLogo()">Remove Logo</button>
+                        </div>
+                    </div>
+                    <div style="background: #fff9e6; padding: 12px; border-radius: 8px; font-size: 13px; color: #666; margin-top: 10px;">
+                        💡 <strong>Tip:</strong> Your logo will appear on all work orders and change orders. For best results, use a transparent PNG file.
+                    </div>
+                </div>
+
+                <div class="section">
+                    <div class="section-title">Company Information</div>
+                    <div class="input-wrapper">
+                        <label for="companyName">Company Name</label>
+                        <input type="text" id="companyName" placeholder="e.g., ABC Restoration" onchange="saveSettings()">
+                    </div>
+                    <div class="input-wrapper">
+                        <label for="companyAddress">Company Address</label>
+                        <input type="text" id="companyAddress" placeholder="e.g., 123 Main St, City, State 12345" onchange="saveSettings()">
+                    </div>
+                    <div class="input-wrapper">
+                        <label for="companyPhone">Company Phone</label>
+                        <input type="tel" id="companyPhone" placeholder="e.g., (555) 123-4567" onchange="saveSettings()">
+                    </div>
+                </div>
+
+                <div class="section">
+                    <div class="section-title">Project Manager Information</div>
+                    <div class="input-wrapper">
+                        <label for="pmName">Project Manager Name</label>
+                        <input type="text" id="pmName" placeholder="e.g., John Smith" onchange="saveSettings()">
+                    </div>
+                    <div class="input-wrapper">
+                        <label for="pmPhone">Project Manager Phone</label>
+                        <input type="tel" id="pmPhone" placeholder="e.g., (555) 987-6543" onchange="saveSettings()">
+                    </div>
+                    <div class="input-wrapper">
+                        <label for="pmEmail">Project Manager Email</label>
+                        <input type="email" id="pmEmail" placeholder="e.g., jsmith@company.com" onchange="saveSettings()">
+                    </div>
+                    <div style="background: #fff9e6; padding: 12px; border-radius: 8px; font-size: 13px; color: #666; margin-top: 10px;">
+                        💡 <strong>How it works:</strong> This information will automatically appear on all work orders and change orders you generate, saving you time on every estimate.
+                    </div>
+                </div>
+
+                <div class="section">
+                    <button class="btn btn-success" onclick="saveSettingsAndClose()">💾 Save Settings</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Saved Estimates Modal -->
+    <div id="savedEstimatesModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>📁 Saved Estimates</h2>
+                <button class="modal-close" onclick="closeSavedEstimates()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div id="savedEstimatesList"></div>
+            </div>
+        </div>
+    </div>
+
+    <div id="toast" class="toast">Action completed!</div>
+
+    <script>
+        // Default pricing database
+        let pricingDatabase = [
+            { id: 1, name: 'Content Manipulation', unit: 'hour', price: 53.30 },
+            { id: 2, name: 'Pickup Truck Dump Run', unit: 'each', price: 168.50 },
+            { id: 3, name: 'DRY - 1/2" Drywall - Hung, Taped, Texture', unit: 'sq ft', price: 3.32 },
+            { id: 4, name: 'DRY - 5/8" Drywall - Hung, Taped, Texture', unit: 'sq ft', price: 3.04 },
+            { id: 5, name: 'DRY - Texture Drywall - Heavy Hand Texture', unit: 'sq ft', price: 1.74 },
+            { id: 6, name: 'DRY - 1/2" Drywall per LF - Up to 2\' Tall - Flood Cuts', unit: 'lin ft', price: 13.46 },
+            { id: 7, name: 'DRY - Mask per Square Foot for Drywall Work', unit: 'sq ft', price: 0.33 },
+            { id: 8, name: 'DRY - Drywall Patch / Small Repair, Ready for Paint', unit: 'each', price: 107.95 },
+            { id: 9, name: 'DRY - Tape Joint for New to Existing Drywall - per LF', unit: 'lin ft', price: 8.98 },
+            { id: 10, name: 'DRY - Drywall Labor', unit: 'hour', price: 65.00 },
+            { id: 11, name: 'FNC - Baseboard - 3 1/4"', unit: 'lin ft', price: 4.77 },
+            { id: 12, name: 'FNC - Baseboard - 5 1/4"', unit: 'lin ft', price: 5.59 },
+            { id: 13, name: 'FNC - Casing - 3 1/4"', unit: 'lin ft', price: 3.75 },
+            { id: 14, name: 'FNC - Finish Carpenter Labor', unit: 'hour', price: 75.00 },
+            { id: 15, name: 'INS - Batt Insulation - 6" - R19 - Paper Faced', unit: 'sq ft', price: 1.51 },
+            { id: 16, name: 'PNT - Baseboard - 2 Coats', unit: 'lin ft', price: 2.68 },
+            { id: 17, name: 'PNT - Casing - 2 Coats', unit: 'lin ft', price: 2.55 },
+            { id: 18, name: 'PNT - Paint Door Slab Only - 2 Coats (per Side)', unit: 'each', price: 61.06 },
+            { id: 19, name: 'PNT - Mask per Square Foot - Plastic and Tape - 4 Mil', unit: 'sq ft', price: 0.40 },
+            { id: 20, name: 'PNT - Paint Walls & Ceilings - Two Coats', unit: 'sq ft', price: 1.98 },
+            { id: 21, name: 'PNT - Paint Labor', unit: 'hour', price: 75.00 }
+        ];
+
+        let lineItems = [];
+        let nextId = pricingDatabase.length + 1;
+        let savedEstimates = [];
+        let companySettings = {
+            logo: null,
+            companyName: '',
+            companyAddress: '',
+            companyPhone: '',
+            pmName: '',
+            pmPhone: '',
+            pmEmail: ''
+        };
+
+        // Load from localStorage if available
+        function loadData() {
+            const saved = localStorage.getItem('pricingDatabase');
+            if (saved) {
+                pricingDatabase = JSON.parse(saved);
+                nextId = Math.max(...pricingDatabase.map(item => item.id)) + 1;
+            }
+            
+            const savedSettings = localStorage.getItem('companySettings');
+            if (savedSettings) {
+                companySettings = JSON.parse(savedSettings);
+                loadSettingsToForm();
+            }
+            
+            const savedEstimatesData = localStorage.getItem('savedEstimates');
+            if (savedEstimatesData) {
+                savedEstimates = JSON.parse(savedEstimatesData);
+            }
+            
+            updateMaterialSelect();
+            renderPricingList();
+        }
+
+        // Load settings into form
+        function loadSettingsToForm() {
+            document.getElementById('companyName').value = companySettings.companyName || '';
+            document.getElementById('companyAddress').value = companySettings.companyAddress || '';
+            document.getElementById('companyPhone').value = companySettings.companyPhone || '';
+            document.getElementById('pmName').value = companySettings.pmName || '';
+            document.getElementById('pmPhone').value = companySettings.pmPhone || '';
+            document.getElementById('pmEmail').value = companySettings.pmEmail || '';
+            
+            if (companySettings.logo) {
+                document.getElementById('logoImage').src = companySettings.logo;
+                document.getElementById('logoPreview').style.display = 'block';
+            }
+        }
+
+        // Save settings
+        function saveSettings() {
+            companySettings.companyName = document.getElementById('companyName').value;
+            companySettings.companyAddress = document.getElementById('companyAddress').value;
+            companySettings.companyPhone = document.getElementById('companyPhone').value;
+            companySettings.pmName = document.getElementById('pmName').value;
+            companySettings.pmPhone = document.getElementById('pmPhone').value;
+            companySettings.pmEmail = document.getElementById('pmEmail').value;
+            
+            localStorage.setItem('companySettings', JSON.stringify(companySettings));
+            showToast('Settings saved!');
+        }
+
+        // Handle logo upload
+        function handleLogoUpload(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    companySettings.logo = e.target.result;
+                    document.getElementById('logoImage').src = e.target.result;
+                    document.getElementById('logoPreview').style.display = 'block';
+                    saveSettings();
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        // Remove logo
+        function removeLogo() {
+            companySettings.logo = null;
+            document.getElementById('logoPreview').style.display = 'none';
+            document.getElementById('logoUpload').value = '';
+            saveSettings();
+            showToast('Logo removed');
+        }
+
+        // Save to localStorage
+        function saveData() {
+            localStorage.setItem('pricingDatabase', JSON.stringify(pricingDatabase));
+        }
+
+        // Tab switching
+        function switchTab(tab) {
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(tc => tc.classList.remove('active'));
+            
+            if (tab === 'estimate') {
+                document.querySelectorAll('.tab')[0].classList.add('active');
+                document.getElementById('estimateTab').classList.add('active');
+            } else if (tab === 'pricing') {
+                document.querySelectorAll('.tab')[1].classList.add('active');
+                document.getElementById('pricingTab').classList.add('active');
+            }
+        }
+
+        // Settings modal functions
+        function openSettings() {
+            document.getElementById('settingsModal').classList.add('show');
+        }
+
+        function closeSettings() {
+            document.getElementById('settingsModal').classList.remove('show');
+        }
+
+        function saveSettingsAndClose() {
+            saveSettings();
+            closeSettings();
+        }
+
+        // Saved estimates functions
+        function saveCurrentEstimate() {
+            if (lineItems.length === 0) {
+                showToast('Add line items first');
+                return;
+            }
+
+            const projectName = document.getElementById('projectName').value || 'Untitled Project';
+            const customerName = document.getElementById('customerName').value || 'Customer';
+            const projectNotes = document.getElementById('projectNotes').value;
+            const subtotal = lineItems.reduce((sum, item) => sum + item.total, 0);
+            const overheadPercent = parseFloat(document.getElementById('overheadPercent').value) || 0;
+            const profitPercent = parseFloat(document.getElementById('profitPercent').value) || 0;
+            const overheadAmount = subtotal * (overheadPercent / 100);
+            const profitAmount = subtotal * (profitPercent / 100);
+            const customerTotal = subtotal + overheadAmount + profitAmount;
+            
+            const estimate = {
+                id: Date.now(),
+                date: new Date().toLocaleDateString(),
+                projectName: projectName,
+                customerName: customerName,
+                projectNotes: projectNotes,
+                lineItems: JSON.parse(JSON.stringify(lineItems)),
+                subtotal: subtotal,
+                overheadPercent: overheadPercent,
+                profitPercent: profitPercent,
+                customerTotal: customerTotal,
+                grossMarginPercent: parseFloat(document.getElementById('grossMarginPercent').value) || 30
+            };
+
+            savedEstimates.unshift(estimate); // Add to beginning
+            localStorage.setItem('savedEstimates', JSON.stringify(savedEstimates));
+            showToast('Estimate saved!');
+        }
+
+        function createNewEstimate() {
+            if (lineItems.length > 0) {
+                if (!confirm('Clear current estimate and start new? (Make sure to save if needed)')) {
+                    return;
+                }
+            }
+
+            // Clear all fields
+            document.getElementById('projectName').value = '';
+            document.getElementById('customerName').value = '';
+            document.getElementById('projectNotes').value = '';
+            
+            // Clear line items
+            lineItems = [];
+            renderLineItems();
+            updateSummary();
+            
+            showToast('Ready for new estimate!');
+        }
+
+        function viewSavedEstimates() {
+            const container = document.getElementById('savedEstimatesList');
+            
+            if (savedEstimates.length === 0) {
+                container.innerHTML = '<div class="empty-state"><div class="empty-state-icon">📋</div><p>No saved estimates yet. Create and save an estimate to see it here!</p></div>';
+            } else {
+                container.innerHTML = '';
+                savedEstimates.forEach(estimate => {
+                    const div = document.createElement('div');
+                    div.className = 'line-item';
+                    div.innerHTML = `
+                        <div class="line-item-header">
+                            <div>
+                                <div class="line-item-title">${estimate.projectName}</div>
+                                <div style="font-size: 12px; color: #999; margin-top: 3px;">${estimate.date} - ${estimate.customerName}</div>
+                            </div>
+                            <button class="line-item-delete" onclick="deleteEstimate(${estimate.id})">Delete</button>
+                        </div>
+                        <div class="line-item-details">
+                            <div>${estimate.lineItems.length} items</div>
+                            <div>Total: $${estimate.customerTotal.toFixed(2)}</div>
+                        </div>
+                        <div style="margin-top: 10px;">
+                            <button class="btn btn-small" onclick="loadEstimate(${estimate.id})">Load Estimate</button>
+                        </div>
+                    `;
+                    container.appendChild(div);
+                });
+            }
+
+            document.getElementById('savedEstimatesModal').classList.add('show');
+        }
+
+        function closeSavedEstimates() {
+            document.getElementById('savedEstimatesModal').classList.remove('show');
+        }
+
+        function deleteEstimate(id) {
+            if (confirm('Delete this estimate?')) {
+                savedEstimates = savedEstimates.filter(e => e.id !== id);
+                localStorage.setItem('savedEstimates', JSON.stringify(savedEstimates));
+                viewSavedEstimates(); // Refresh the list
+                showToast('Estimate deleted');
+            }
+        }
+
+        function loadEstimate(id) {
+            const estimate = savedEstimates.find(e => e.id === id);
+            if (!estimate) return;
+
+            // Load all data back into the form
+            document.getElementById('projectName').value = estimate.projectName;
+            document.getElementById('customerName').value = estimate.customerName;
+            document.getElementById('projectNotes').value = estimate.projectNotes;
+            document.getElementById('overheadPercent').value = estimate.overheadPercent;
+            document.getElementById('profitPercent').value = estimate.profitPercent;
+            document.getElementById('grossMarginPercent').value = estimate.grossMarginPercent;
+
+            // Load line items
+            lineItems = JSON.parse(JSON.stringify(estimate.lineItems));
+            
+            // Switch to estimate tab and update UI
+            switchTab('estimate');
+            closeSavedEstimates();
+            renderLineItems();
+            updateSummary();
+            updateMarginCalculations();
+            
+            showToast('Estimate loaded!');
+        }
+
+        // Update material select dropdown
+        function updateMaterialSelect() {
+            const select = document.getElementById('materialSelect');
+            select.innerHTML = '<option value="">Select material or service...</option>';
+            
+            pricingDatabase.forEach(item => {
+                const option = document.createElement('option');
+                option.value = item.id;
+                option.textContent = `${item.name} - $${item.price.toFixed(2)}/${item.unit}`;
+                select.appendChild(option);
+            });
+        }
+
+        // Update unit price when material is selected
+        document.getElementById('materialSelect').addEventListener('change', function() {
+            const itemId = parseInt(this.value);
+            const item = pricingDatabase.find(i => i.id === itemId);
+            const unitPriceInput = document.getElementById('unitPrice');
+            
+            if (item) {
+                unitPriceInput.value = `$${item.price.toFixed(2)}/${item.unit}`;
+            } else {
+                unitPriceInput.value = '';
+            }
+        });
+
+        // Add line item to estimate
+        function addLineItem() {
+            const materialId = parseInt(document.getElementById('materialSelect').value);
+            const quantity = parseFloat(document.getElementById('quantity').value);
+
+            if (!materialId || !quantity || quantity <= 0) {
+                showToast('Please select a material and enter quantity');
+                return;
+            }
+
+            const material = pricingDatabase.find(i => i.id === materialId);
+            const total = quantity * material.price;
+
+            lineItems.push({
+                id: Date.now(),
+                materialId: material.id,
+                name: material.name,
+                quantity: quantity,
+                unit: material.unit,
+                unitPrice: material.price,
+                total: total
+            });
+
+            // Clear inputs
+            document.getElementById('materialSelect').value = '';
+            document.getElementById('quantity').value = '';
+            document.getElementById('unitPrice').value = '';
+
+            renderLineItems();
+            updateSummary();
+        }
+
+        // Remove line item
+        function removeLineItem(id) {
+            lineItems = lineItems.filter(item => item.id !== id);
+            renderLineItems();
+            updateSummary();
+        }
+
+        // Render line items
+        function renderLineItems() {
+            const container = document.getElementById('lineItemsList');
+            const section = document.getElementById('lineItemsSection');
+
+            if (lineItems.length === 0) {
+                section.style.display = 'none';
+                return;
+            }
+
+            section.style.display = 'block';
+            container.innerHTML = '';
+
+            lineItems.forEach(item => {
+                const div = document.createElement('div');
+                div.className = 'line-item';
+                div.innerHTML = `
+                    <div class="line-item-header">
+                        <span class="line-item-title">${item.name}</span>
+                        <button class="line-item-delete" onclick="removeLineItem(${item.id})">Remove</button>
+                    </div>
+                    <div class="line-item-details">
+                        <div>Qty: ${item.quantity.toFixed(2)} ${item.unit}</div>
+                        <div>@ $${item.unitPrice.toFixed(2)}/${item.unit}</div>
+                    </div>
+                    <div class="line-item-total">$${item.total.toFixed(2)}</div>
+                `;
+                container.appendChild(div);
+            });
+        }
+
+        // Update margin calculations when percentage changes
+        function updateMarginCalculations() {
+            const marginPercent = parseFloat(document.getElementById('grossMarginPercent').value) || 0;
+            const payoutPercent = 100 - marginPercent;
+            
+            document.getElementById('subPayoutPercent').value = payoutPercent.toFixed(1);
+            document.getElementById('payoutDisplay').textContent = payoutPercent.toFixed(1);
+            document.getElementById('marginDisplay').textContent = marginPercent.toFixed(1);
+            
+            // Update summary if it's visible
+            if (lineItems.length > 0) {
+                updateSummary();
+            }
+        }
+
+        // Update estimate summary
+        function updateSummary() {
+            const summaryDiv = document.getElementById('estimateSummary');
+            
+            if (lineItems.length === 0) {
+                summaryDiv.style.display = 'none';
+                return;
+            }
+
+            summaryDiv.style.display = 'block';
+
+            const subtotal = lineItems.reduce((sum, item) => sum + item.total, 0);
+            const overheadPercent = parseFloat(document.getElementById('overheadPercent').value) || 0;
+            const profitPercent = parseFloat(document.getElementById('profitPercent').value) || 0;
+            const marginPercent = parseFloat(document.getElementById('grossMarginPercent').value) || 30;
+            const payoutPercent = 100 - marginPercent;
+            
+            const overheadAmount = subtotal * (overheadPercent / 100);
+            const profitAmount = subtotal * (profitPercent / 100);
+            const customerTotal = subtotal + overheadAmount + profitAmount;
+            const subPayout = customerTotal * (payoutPercent / 100);
+            const grossMargin = customerTotal - subPayout;
+            
+            document.getElementById('subtotal').textContent = `$${subtotal.toFixed(2)}`;
+            document.getElementById('overheadAmount').textContent = `$${overheadAmount.toFixed(2)}`;
+            document.getElementById('profitAmount').textContent = `$${profitAmount.toFixed(2)}`;
+            document.getElementById('grandTotal').textContent = `$${customerTotal.toFixed(2)}`;
+            document.getElementById('subPayout').textContent = `$${subPayout.toFixed(2)}`;
+            document.getElementById('grossMargin').textContent = `$${grossMargin.toFixed(2)}`;
+            document.getElementById('payoutPercentDisplay').textContent = payoutPercent.toFixed(1);
+            document.getElementById('marginPercentDisplay').textContent = marginPercent.toFixed(1);
+            document.getElementById('overheadPercentDisplay').textContent = overheadPercent.toFixed(1);
+            document.getElementById('profitPercentDisplay').textContent = profitPercent.toFixed(1);
+        }
+
+        // Pricing database management
+        function renderPricingList() {
+            const container = document.getElementById('pricingList');
+            container.innerHTML = '';
+
+            if (pricingDatabase.length === 0) {
+                container.innerHTML = '<div class="empty-state"><div class="empty-state-icon">📋</div><p>No pricing items yet. Add your first item!</p></div>';
+                return;
+            }
+
+            pricingDatabase.forEach(item => {
+                const div = document.createElement('div');
+                div.className = 'pricing-item';
+                div.innerHTML = `
+                    <input type="text" value="${item.name}" onchange="updatePricingItem(${item.id}, 'name', this.value)">
+                    <div style="display: flex; align-items: center; gap: 5px;">
+                        <input type="number" step="0.01" value="${item.price}" onchange="updatePricingItem(${item.id}, 'price', parseFloat(this.value))" style="width: 80px;">
+                        <span class="badge badge-unit">/${item.unit}</span>
+                    </div>
+                    <select onchange="updatePricingItem(${item.id}, 'unit', this.value)">
+                        <option value="sq ft" ${item.unit === 'sq ft' ? 'selected' : ''}>sq ft</option>
+                        <option value="lin ft" ${item.unit === 'lin ft' ? 'selected' : ''}>lin ft</option>
+                        <option value="each" ${item.unit === 'each' ? 'selected' : ''}>each</option>
+                        <option value="hour" ${item.unit === 'hour' ? 'selected' : ''}>hour</option>
+                    </select>
+                    <button class="line-item-delete" onclick="deletePricingItem(${item.id})">✕</button>
+                `;
+                container.appendChild(div);
+            });
+        }
+
+        function addPricingItem() {
+            const newItem = {
+                id: nextId++,
+                name: 'New Item',
+                unit: 'sq ft',
+                price: 0
+            };
+            pricingDatabase.push(newItem);
+            saveData();
+            updateMaterialSelect();
+            renderPricingList();
+            showToast('Item added');
+        }
+
+        function updatePricingItem(id, field, value) {
+            const item = pricingDatabase.find(i => i.id === id);
+            if (item) {
+                item[field] = value;
+                saveData();
+                updateMaterialSelect();
+                showToast('Pricing updated');
+            }
+        }
+
+        function deletePricingItem(id) {
+            if (confirm('Delete this pricing item?')) {
+                pricingDatabase = pricingDatabase.filter(i => i.id !== id);
+                saveData();
+                updateMaterialSelect();
+                renderPricingList();
+                showToast('Item deleted');
+            }
+        }
+
+        // Document generation
+        let currentDocument = '';
+        let currentDocType = '';
+
+        function showDocumentModal(type) {
+            if (lineItems.length === 0) {
+                showToast('Add line items first');
+                return;
+            }
+
+            const projectName = document.getElementById('projectName').value || 'Untitled Project';
+            const customerName = document.getElementById('customerName').value || 'Customer';
+            const projectNotes = document.getElementById('projectNotes').value;
+            const today = new Date().toLocaleDateString();
+            const docNumber = Math.floor(Math.random() * 90000) + 10000;
+
+            currentDocType = type;
+
+            if (type === 'workorder') {
+                currentDocument = generateWorkOrder(docNumber, today, projectName, customerName, projectNotes);
+                document.getElementById('modalTitle').textContent = 'Work Order Preview';
+            } else {
+                currentDocument = generateChangeOrder(docNumber, today, projectName, customerName, projectNotes);
+                document.getElementById('modalTitle').textContent = 'Change Order Preview';
+            }
+
+            document.getElementById('documentPreview').textContent = currentDocument;
+            document.getElementById('documentModal').classList.add('show');
+        }
+
+        function generateWorkOrder(number, date, project, customer, notes) {
+            const subtotal = lineItems.reduce((sum, item) => sum + item.total, 0);
+            const overheadPercent = parseFloat(document.getElementById('overheadPercent').value) || 0;
+            const profitPercent = parseFloat(document.getElementById('profitPercent').value) || 0;
+            const overheadAmount = subtotal * (overheadPercent / 100);
+            const profitAmount = subtotal * (profitPercent / 100);
+            const customerTotal = subtotal + overheadAmount + profitAmount;
+            const marginPercent = parseFloat(document.getElementById('grossMarginPercent').value) || 30;
+            const payoutPercent = 100 - marginPercent;
+            const workOrderTotal = customerTotal * (payoutPercent / 100);
+            
+            let doc = ``;
+            
+            // Add company header if available
+            if (companySettings.companyName) {
+                doc += `${companySettings.companyName}\n`;
+            }
+            if (companySettings.companyAddress) {
+                doc += `${companySettings.companyAddress}\n`;
+            }
+            if (companySettings.companyPhone) {
+                doc += `Phone: ${companySettings.companyPhone}\n`;
+            }
+            if (companySettings.companyName) {
+                doc += `\n`;
+            }
+            
+            doc += `═══════════════════════════════════════════════════════
+                    WORK ORDER #${number}
+═══════════════════════════════════════════════════════
+
+Date: ${date}
+Project: ${project}
+Customer: ${customer}`;
+
+            if (companySettings.pmName) {
+                doc += `\nProject Manager: ${companySettings.pmName}`;
+            }
+            if (companySettings.pmPhone) {
+                doc += `\nPM Phone: ${companySettings.pmPhone}`;
+            }
+            if (companySettings.pmEmail) {
+                doc += `\nPM Email: ${companySettings.pmEmail}`;
+            }
+
+            doc += `
+
+───────────────────────────────────────────────────────
+SCOPE OF WORK
+───────────────────────────────────────────────────────
+
+`;
+            
+            lineItems.forEach(item => {
+                doc += `${item.name}\n`;
+                doc += `  Quantity: ${item.quantity.toFixed(2)} ${item.unit} @ $${item.unitPrice.toFixed(2)}/${item.unit}\n`;
+                doc += `  Cost: $${item.total.toFixed(2)}\n\n`;
+            });
+
+            if (notes) {
+                doc += `───────────────────────────────────────────────────────
+NOTES
+───────────────────────────────────────────────────────
+
+${notes}
+
+`;
+            }
+
+            doc += `───────────────────────────────────────────────────────
+TOTAL AMOUNT DUE TO SUBCONTRACTOR: $${workOrderTotal.toFixed(2)}
+───────────────────────────────────────────────────────
+
+Payment terms: Due upon completion of work described above.
+
+Subcontractor Signature: _________________________
+
+Date: _________________________
+
+═══════════════════════════════════════════════════════`;
+
+            return doc;
+        }
+
+        function generateChangeOrder(number, date, project, customer, notes) {
+            const subtotal = lineItems.reduce((sum, item) => sum + item.total, 0);
+            const overheadPercent = parseFloat(document.getElementById('overheadPercent').value) || 0;
+            const profitPercent = parseFloat(document.getElementById('profitPercent').value) || 0;
+            const overheadAmount = subtotal * (overheadPercent / 100);
+            const profitAmount = subtotal * (profitPercent / 100);
+            const customerTotal = subtotal + overheadAmount + profitAmount;
+            const today = new Date();
+            const month = today.toLocaleString('default', { month: 'long' });
+            const year = today.getFullYear();
+            
+            let doc = ``;
+            
+            // Add company header if available
+            if (companySettings.companyName) {
+                doc += `${companySettings.companyName}\n`;
+            }
+            if (companySettings.companyAddress) {
+                doc += `${companySettings.companyAddress}\n`;
+            }
+            if (companySettings.companyPhone) {
+                doc += `Phone: ${companySettings.companyPhone}\n`;
+            }
+            if (companySettings.companyName) {
+                doc += `\n`;
+            }
+            
+            doc += `
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+                        CHANGE ORDER
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+                          No. ${number}
+
+The undersigned Owner(s) hereby enters into an agreement with the 
+Contractor to change the previously agreed to Scope of Work being 
+done under contract of the original work authorization, dated 
+${date} as follows:
+
+PROJECT: ${project}
+CUSTOMER: ${customer}`;
+
+            if (companySettings.pmName) {
+                doc += `\nProject Manager: ${companySettings.pmName}`;
+            }
+            if (companySettings.pmPhone) {
+                doc += `\nPM Phone: ${companySettings.pmPhone}`;
+            }
+
+            doc += `
+
+───────────────────────────────────────────────────────────────
+
+SCOPE OF WORK CHANGES:
+
+`;
+            
+            lineItems.forEach((item, index) => {
+                doc += `${index + 1}. ${item.name} - ${item.quantity.toFixed(2)} ${item.unit} @ $${item.unitPrice.toFixed(2)}/${item.unit} = $${item.total.toFixed(2)}\n\n`;
+            });
+
+            // Pad remaining lines if fewer than 6
+            for (let i = lineItems.length + 1; i <= 6; i++) {
+                doc += `${i}. _______________________________________________________________\n\n`;
+            }
+
+            if (notes) {
+                doc += `\nADDITIONAL NOTES:\n${notes}\n`;
+            }
+
+            doc += `
+───────────────────────────────────────────────────────────────
+
+All of the terms of the original work authorization shall apply 
+to this Change Order, unless otherwise stipulated in writing and 
+agreed to by both parties.
+
+The total cost for the above described Scope of Work is:
+
+Materials & Labor Subtotal              $${subtotal.toFixed(2)}
+Overhead (${overheadPercent.toFixed(1)}%)                              $${overheadAmount.toFixed(2)}
+Profit (${profitPercent.toFixed(1)}%)                                $${profitAmount.toFixed(2)}
+                                        ─────────────────
+Add to original contract amount         $${customerTotal.toFixed(2)}
+Deduct from original contract amount    $__________
+
+If the above sum is an additional charge, it is due and payable 
+upon completion of the Scope of Work described above.
+
+If the above sum is a credit, it shall be deducted from the final 
+contract payment or from the insurance payment, whichever the 
+case may be.
+
+───────────────────────────────────────────────────────────────
+                          JOB RECAP
+───────────────────────────────────────────────────────────────
+
+Original Contract Amount            $__________
+Previous Change Orders (+)          $__________
+Previous Change Orders (-)          $__________
+This Change Order                   $${customerTotal.toFixed(2)}
+Current Contract Total              $__________
+
+───────────────────────────────────────────────────────────────
+
+Signed and agreed to this _____ day of ${month}, ${year}
+
+
+Owner: _____________________________
+
+       _____________________________
+       (Print Name of Owner)
+
+Owner: _____________________________
+
+       _____________________________
+       (Print Name of Owner)
+
+
+Contractor Representative: _____________________________
+
+                          _____________________________`;
+            
+            if (companySettings.pmName) {
+                doc += `\n                          ${companySettings.pmName}`;
+            }
+
+            doc += `
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━`;
+
+            return doc;
+        }
+
+        function closeDocumentModal() {
+            document.getElementById('documentModal').classList.remove('show');
+        }
+
+        function copyDocument() {
+            navigator.clipboard.writeText(currentDocument).then(() => {
+                showToast('Copied to clipboard!');
+            });
+        }
+
+        function shareDocument() {
+            if (navigator.share) {
+                navigator.share({
+                    title: currentDocType === 'workorder' ? 'Work Order' : 'Change Order',
+                    text: currentDocument
+                }).catch(() => {
+                    copyDocument();
+                });
+            } else {
+                copyDocument();
+            }
+        }
+
+        function downloadPDF() {
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
+            
+            const projectName = document.getElementById('projectName').value || 'Untitled Project';
+            const customerName = document.getElementById('customerName').value || 'Customer';
+            const projectNotes = document.getElementById('projectNotes').value;
+            const today = new Date().toLocaleDateString();
+            const subtotal = lineItems.reduce((sum, item) => sum + item.total, 0);
+            const overheadPercent = parseFloat(document.getElementById('overheadPercent').value) || 0;
+            const profitPercent = parseFloat(document.getElementById('profitPercent').value) || 0;
+            const overheadAmount = subtotal * (overheadPercent / 100);
+            const profitAmount = subtotal * (profitPercent / 100);
+            const customerTotal = subtotal + overheadAmount + profitAmount;
+            const marginPercent = parseFloat(document.getElementById('grossMarginPercent').value) || 30;
+            const payoutPercent = 100 - marginPercent;
+            const workOrderTotal = customerTotal * (payoutPercent / 100);
+            
+            if (currentDocType === 'workorder') {
+                generateWorkOrderPDF(doc, projectName, customerName, projectNotes, today, subtotal, payoutPercent, workOrderTotal);
+            } else {
+                generateChangeOrderPDF(doc, projectName, customerName, projectNotes, today, subtotal, overheadPercent, profitPercent, overheadAmount, profitAmount, customerTotal);
+            }
+        }
+
+        function generateWorkOrderPDF(doc, projectName, customerName, projectNotes, today, subtotal, payoutPercent, workOrderTotal) {
+            const docNumber = Math.floor(Math.random() * 90000) + 10000;
+            let yPos = 20;
+            
+            // Add logo if available with more space
+            if (companySettings.logo) {
+                try {
+                    doc.addImage(companySettings.logo, 'PNG', 20, yPos, 150, 20);
+                    yPos += 25;
+                } catch (e) {
+                    console.log('Logo could not be added to PDF');
+                }
+            }
+            
+            // Company info header
+            if (companySettings.companyName) {
+                doc.setFontSize(10);
+                doc.setFont(undefined, 'bold');
+                doc.text(companySettings.companyName, 20, yPos);
+                yPos += 5;
+            }
+            if (companySettings.companyAddress) {
+                doc.setFontSize(9);
+                doc.setFont(undefined, 'normal');
+                doc.text(companySettings.companyAddress, 20, yPos);
+                yPos += 4;
+            }
+            if (companySettings.companyPhone) {
+                doc.text(`Phone: ${companySettings.companyPhone}`, 20, yPos);
+                yPos += 8;
+            } else if (companySettings.companyName) {
+                yPos += 5;
+            }
+            
+            // Header
+            doc.setFontSize(20);
+            doc.setFont(undefined, 'bold');
+            doc.text('WORK ORDER', 105, yPos, { align: 'center' });
+            
+            yPos += 10;
+            doc.setFontSize(12);
+            doc.text(`No. ${docNumber}`, 105, yPos, { align: 'center' });
+            
+            yPos += 15;
+            doc.setFontSize(10);
+            doc.setFont(undefined, 'normal');
+            doc.text(`Date: ${today}`, 20, yPos);
+            yPos += 7;
+            doc.text(`Project: ${projectName}`, 20, yPos);
+            yPos += 7;
+            doc.text(`Customer: ${customerName}`, 20, yPos);
+            
+            if (companySettings.pmName) {
+                yPos += 7;
+                doc.text(`Project Manager: ${companySettings.pmName}`, 20, yPos);
+            }
+            if (companySettings.pmPhone) {
+                yPos += 7;
+                doc.text(`PM Phone: ${companySettings.pmPhone}`, 20, yPos);
+            }
+            if (companySettings.pmEmail) {
+                yPos += 7;
+                doc.text(`PM Email: ${companySettings.pmEmail}`, 20, yPos);
+            }
+            
+            yPos += 15;
+            
+            // Scope of Work
+            doc.setFont(undefined, 'bold');
+            doc.setFillColor(212, 175, 55);
+            doc.rect(20, yPos - 5, 170, 8, 'F');
+            doc.text('SCOPE OF WORK', 105, yPos, { align: 'center' });
+            
+            yPos += 10;
+            doc.setFont(undefined, 'normal');
+            
+            lineItems.forEach(item => {
+                if (yPos > 250) {
+                    doc.addPage();
+                    yPos = 20;
+                }
+                
+                doc.setFont(undefined, 'bold');
+                doc.text(`${item.name} - ${item.quantity.toFixed(2)} ${item.unit}`, 20, yPos);
+                yPos += 8;
+                doc.setFontSize(10);
+            });
+            
+            if (projectNotes) {
+                yPos += 5;
+                if (yPos > 240) {
+                    doc.addPage();
+                    yPos = 20;
+                }
+                
+                doc.setFont(undefined, 'bold');
+                doc.setFillColor(212, 175, 55);
+                doc.rect(20, yPos - 5, 170, 8, 'F');
+                doc.text('NOTES', 105, yPos, { align: 'center' });
+                
+                yPos += 10;
+                doc.setFont(undefined, 'normal');
+                doc.setFontSize(9);
+                const splitNotes = doc.splitTextToSize(projectNotes, 170);
+                doc.text(splitNotes, 20, yPos);
+                yPos += (splitNotes.length * 5) + 10;
+                doc.setFontSize(10);
+            }
+            
+            // Total amount due
+            if (yPos > 230) {
+                doc.addPage();
+                yPos = 20;
+            }
+            
+            yPos += 15;
+            doc.setFont(undefined, 'bold');
+            doc.setFontSize(12);
+            doc.setFillColor(0, 0, 0);
+            doc.rect(20, yPos - 5, 170, 10, 'F');
+            doc.setTextColor(255, 255, 255);
+            doc.text(`TOTAL AMOUNT DUE: $${workOrderTotal.toFixed(2)}`, 105, yPos + 2, { align: 'center' });
+            doc.setTextColor(0, 0, 0);
+            
+            yPos += 20;
+            
+            // Signature line
+            doc.setFont(undefined, 'normal');
+            doc.setFontSize(9);
+            doc.line(20, yPos, 90, yPos);
+            yPos += 5;
+            doc.text('Subcontractor Signature', 20, yPos);
+            
+            yPos -= 5;
+            doc.line(120, yPos, 190, yPos);
+            yPos += 5;
+            doc.text('Date', 120, yPos);
+            
+            doc.save(`Work_Order_${docNumber}.pdf`);
+            showToast('PDF downloaded!');
+        }
+
+        function generateChangeOrderPDF(doc, projectName, customerName, projectNotes, today, subtotal, overheadPercent, profitPercent, overheadAmount, profitAmount, customerTotal) {
+            const docNumber = Math.floor(Math.random() * 90000) + 10000;
+            let yPos = 20;
+            const todayObj = new Date();
+            const month = todayObj.toLocaleString('default', { month: 'long' });
+            const year = todayObj.getFullYear();
+            
+            // Add logo if available with more space
+            if (companySettings.logo) {
+                try {
+                    doc.addImage(companySettings.logo, 'PNG', 20, yPos, 150, 20);
+                    yPos += 25;
+                } catch (e) {
+                    console.log('Logo could not be added to PDF');
+                }
+            }
+            
+            // Company info header
+            if (companySettings.companyName) {
+                doc.setFontSize(10);
+                doc.setFont(undefined, 'bold');
+                doc.text(companySettings.companyName, 20, yPos);
+                yPos += 5;
+            }
+            if (companySettings.companyAddress) {
+                doc.setFontSize(9);
+                doc.setFont(undefined, 'normal');
+                doc.text(companySettings.companyAddress, 20, yPos);
+                yPos += 4;
+            }
+            if (companySettings.companyPhone) {
+                doc.text(`Phone: ${companySettings.companyPhone}`, 20, yPos);
+                yPos += 8;
+            } else if (companySettings.companyName) {
+                yPos += 5;
+            }
+            
+            // Header
+            doc.setFontSize(20);
+            doc.setFont(undefined, 'bold');
+            doc.text('CHANGE ORDER', 105, yPos, { align: 'center' });
+            
+            yPos += 10;
+            doc.setFontSize(12);
+            doc.text(`No. ${docNumber}`, 105, yPos, { align: 'center' });
+            
+            yPos += 15;
+            doc.setFontSize(9);
+            doc.setFont(undefined, 'normal');
+            const introText = 'The undersigned Owner(s) hereby enters into an agreement with the Contractor to change the previously agreed to Scope of Work being done under contract of the original work authorization, dated ' + today + ' as follows:';
+            const splitIntro = doc.splitTextToSize(introText, 170);
+            doc.text(splitIntro, 20, yPos);
+            yPos += (splitIntro.length * 5) + 8;
+            
+            doc.setFontSize(10);
+            doc.setFont(undefined, 'bold');
+            doc.text(`PROJECT: ${projectName}`, 20, yPos);
+            yPos += 6;
+            doc.text(`CUSTOMER: ${customerName}`, 20, yPos);
+            
+            if (companySettings.pmName) {
+                yPos += 6;
+                doc.setFont(undefined, 'normal');
+                doc.text(`Project Manager: ${companySettings.pmName}`, 20, yPos);
+            }
+            if (companySettings.pmPhone) {
+                yPos += 6;
+                doc.text(`PM Phone: ${companySettings.pmPhone}`, 20, yPos);
+            }
+            
+            yPos += 12;
+            
+            // Scope of Work Changes
+            doc.setFont(undefined, 'bold');
+            doc.setFillColor(212, 175, 55);
+            doc.rect(20, yPos - 5, 170, 8, 'F');
+            doc.text('SCOPE OF WORK CHANGES', 105, yPos, { align: 'center' });
+            
+            yPos += 10;
+            doc.setFont(undefined, 'normal');
+            doc.setFontSize(9);
+            
+            lineItems.forEach((item, index) => {
+                if (yPos > 250) {
+                    doc.addPage();
+                    yPos = 20;
+                }
+                
+                const lineText = `${index + 1}. ${item.name} - ${item.quantity.toFixed(2)} ${item.unit} @ $${item.unitPrice.toFixed(2)}/${item.unit} = $${item.total.toFixed(2)}`;
+                const splitLine = doc.splitTextToSize(lineText, 170);
+                doc.text(splitLine, 20, yPos);
+                yPos += (splitLine.length * 5) + 3;
+            });
+            
+            if (projectNotes) {
+                yPos += 8;
+                if (yPos > 240) {
+                    doc.addPage();
+                    yPos = 20;
+                }
+                
+                doc.setFont(undefined, 'bold');
+                doc.text('ADDITIONAL NOTES:', 20, yPos);
+                yPos += 6;
+                doc.setFont(undefined, 'normal');
+                const splitNotes = doc.splitTextToSize(projectNotes, 170);
+                doc.text(splitNotes, 20, yPos);
+                yPos += (splitNotes.length * 5) + 8;
+            }
+            
+            // Terms
+            if (yPos > 200) {
+                doc.addPage();
+                yPos = 20;
+            }
+            
+            yPos += 10;
+            doc.setFontSize(8);
+            const termsText = 'All of the terms of the original work authorization shall apply to this Change Order, unless otherwise stipulated in writing and agreed to by both parties.';
+            const splitTerms = doc.splitTextToSize(termsText, 170);
+            doc.text(splitTerms, 20, yPos);
+            yPos += (splitTerms.length * 4) + 8;
+            
+            doc.setFontSize(10);
+            doc.setFont(undefined, 'bold');
+            doc.text('The total cost for the above described Scope of Work is:', 20, yPos);
+            yPos += 8;
+            
+            doc.setFont(undefined, 'normal');
+            doc.text('Materials & Labor Subtotal', 20, yPos);
+            doc.text(`$${subtotal.toFixed(2)}`, 190, yPos, { align: 'right' });
+            yPos += 6;
+            doc.text(`Overhead (${overheadPercent.toFixed(1)}%)`, 20, yPos);
+            doc.text(`$${overheadAmount.toFixed(2)}`, 190, yPos, { align: 'right' });
+            yPos += 6;
+            doc.text(`Profit (${profitPercent.toFixed(1)}%)`, 20, yPos);
+            doc.text(`$${profitAmount.toFixed(2)}`, 190, yPos, { align: 'right' });
+            yPos += 2;
+            doc.line(140, yPos, 190, yPos);
+            yPos += 6;
+            doc.setFont(undefined, 'bold');
+            doc.text('Add to original contract amount', 20, yPos);
+            doc.text(`$${customerTotal.toFixed(2)}`, 190, yPos, { align: 'right' });
+            yPos += 6;
+            doc.setFont(undefined, 'normal');
+            doc.text('Deduct from original contract amount', 20, yPos);
+            doc.text('$__________', 190, yPos, { align: 'right' });
+            
+            yPos += 10;
+            doc.setFontSize(8);
+            const paymentText = 'If the above sum is an additional charge, it is due and payable upon completion of the Scope of Work described above. If the above sum is a credit, it shall be deducted from the final contract payment or from the insurance payment, whichever the case may be.';
+            const splitPayment = doc.splitTextToSize(paymentText, 170);
+            doc.text(splitPayment, 20, yPos);
+            yPos += (splitPayment.length * 4) + 10;
+            
+            // Job Recap
+            if (yPos > 200) {
+                doc.addPage();
+                yPos = 20;
+            }
+            
+            doc.setFontSize(10);
+            doc.setFont(undefined, 'bold');
+            doc.setFillColor(212, 175, 55);
+            doc.rect(20, yPos - 5, 170, 8, 'F');
+            doc.text('JOB RECAP', 105, yPos, { align: 'center' });
+            
+            yPos += 10;
+            doc.setFont(undefined, 'normal');
+            doc.text('Original Contract Amount', 20, yPos);
+            doc.text('$__________', 190, yPos, { align: 'right' });
+            yPos += 6;
+            doc.text('Previous Change Orders (+)', 20, yPos);
+            doc.text('$__________', 190, yPos, { align: 'right' });
+            yPos += 6;
+            doc.text('Previous Change Orders (-)', 20, yPos);
+            doc.text('$__________', 190, yPos, { align: 'right' });
+            yPos += 6;
+            doc.setFont(undefined, 'bold');
+            doc.text('This Change Order', 20, yPos);
+            doc.text(`$${customerTotal.toFixed(2)}`, 190, yPos, { align: 'right' });
+            yPos += 6;
+            doc.text('Current Contract Total', 20, yPos);
+            doc.text('$__________', 190, yPos, { align: 'right' });
+            
+            // Signature
+            yPos += 15;
+            doc.setFontSize(9);
+            doc.setFont(undefined, 'normal');
+            doc.text(`Signed and agreed to this _____ day of ${month}, ${year}`, 20, yPos);
+            
+            yPos += 15;
+            doc.line(20, yPos, 90, yPos);
+            yPos += 5;
+            doc.text('Owner Signature', 20, yPos);
+            
+            yPos += 10;
+            doc.line(20, yPos, 90, yPos);
+            yPos += 5;
+            doc.text('Print Name of Owner', 20, yPos);
+            
+            yPos -= 20;
+            doc.line(120, yPos, 190, yPos);
+            yPos += 5;
+            doc.text('Contractor Representative', 120, yPos);
+            if (companySettings.pmName) {
+                yPos += 5;
+                doc.setFont(undefined, 'italic');
+                doc.text(companySettings.pmName, 120, yPos);
+                doc.setFont(undefined, 'normal');
+                yPos += 5;
+            } else {
+                yPos += 10;
+            }
+            doc.line(120, yPos, 190, yPos);
+            yPos += 5;
+            doc.text('Print Name of Representative', 120, yPos);
+            
+            doc.save(`Change_Order_${docNumber}.pdf`);
+            showToast('PDF downloaded!');
+        }
+
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.classList.add('show');
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 2000);
+        }
+
+        // Initialize
+        loadData();
+    </script>
+</body>
+</html>
