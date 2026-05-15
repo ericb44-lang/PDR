@@ -6,11 +6,7 @@
     <title>DTP Estimator Pro</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
@@ -35,15 +31,8 @@
             text-align: center;
         }
 
-        .header h1 {
-            font-size: 24px;
-            margin-bottom: 5px;
-        }
-
-        .header p {
-            font-size: 14px;
-            opacity: 0.9;
-        }
+        .header h1 { font-size: 24px; margin-bottom: 5px; }
+        .header p  { font-size: 14px; opacity: 0.9; }
 
         .tabs {
             display: flex;
@@ -66,11 +55,7 @@
             border-bottom: 3px solid transparent;
         }
 
-        .tab.active {
-            color: #d4af37;
-            background: white;
-            border-bottom-color: #d4af37;
-        }
+        .tab.active { color: #d4af37; background: white; border-bottom-color: #d4af37; }
 
         .settings-gear {
             position: absolute;
@@ -91,27 +76,13 @@
             justify-content: center;
         }
 
-        .settings-gear:hover {
-            transform: translateY(-50%) rotate(90deg);
-            box-shadow: 0 5px 15px rgba(212, 175, 55, 0.4);
-        }
+        .settings-gear:hover  { transform: translateY(-50%) rotate(90deg); box-shadow: 0 5px 15px rgba(212,175,55,0.4); }
+        .settings-gear:active { transform: translateY(-50%) rotate(90deg) scale(0.95); }
 
-        .settings-gear:active {
-            transform: translateY(-50%) rotate(90deg) scale(0.95);
-        }
+        .tab-content { display: none; padding: 25px; }
+        .tab-content.active { display: block; }
 
-        .tab-content {
-            display: none;
-            padding: 25px;
-        }
-
-        .tab-content.active {
-            display: block;
-        }
-
-        .section {
-            margin-bottom: 25px;
-        }
+        .section { margin-bottom: 25px; }
 
         .section-title {
             font-size: 16px;
@@ -131,13 +102,7 @@
             border-radius: 2px;
         }
 
-        label {
-            display: block;
-            font-size: 14px;
-            color: #555;
-            margin-bottom: 8px;
-            font-weight: 500;
-        }
+        label { display: block; font-size: 14px; color: #555; margin-bottom: 8px; font-weight: 500; }
 
         input, select, textarea {
             width: 100%;
@@ -150,27 +115,16 @@
             font-family: inherit;
         }
 
-        textarea {
-            resize: vertical;
-            min-height: 80px;
-        }
+        textarea { resize: vertical; min-height: 80px; }
 
         input:focus, select:focus, textarea:focus {
             outline: none;
             border-color: #d4af37;
-            box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.1);
+            box-shadow: 0 0 0 3px rgba(212,175,55,0.1);
         }
 
-        .input-group {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 15px;
-            margin-bottom: 15px;
-        }
-
-        .input-wrapper {
-            margin-bottom: 15px;
-        }
+        .input-group { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 15px; }
+        .input-wrapper { margin-bottom: 15px; }
 
         .btn {
             width: 100%;
@@ -186,41 +140,15 @@
             margin-top: 10px;
         }
 
-        .btn:active {
-            transform: scale(0.98);
-        }
+        .btn:active { transform: scale(0.98); }
+        .btn:hover  { box-shadow: 0 10px 25px rgba(212,175,55,0.3); }
 
-        .btn:hover {
-            box-shadow: 0 10px 25px rgba(212, 175, 55, 0.3);
-        }
+        .btn-secondary { background: linear-gradient(90deg, #000000 0%, #d4af37 100%); color: white; border: none; }
+        .btn-secondary:hover { box-shadow: 0 10px 25px rgba(212,175,55,0.3); }
+        .btn-danger  { background: linear-gradient(90deg, #000000 0%, #d4af37 100%); color: white; }
+        .btn-success { background: linear-gradient(90deg, #000000 0%, #d4af37 100%); color: white; }
 
-        .btn-secondary {
-            background: linear-gradient(90deg, #000000 0%, #d4af37 100%);
-            color: white;
-            border: none;
-        }
-
-        .btn-secondary:hover {
-            box-shadow: 0 10px 25px rgba(212, 175, 55, 0.3);
-        }
-
-        .btn-danger {
-            background: linear-gradient(90deg, #000000 0%, #d4af37 100%);
-            color: white;
-        }
-
-        .btn-success {
-            background: linear-gradient(90deg, #000000 0%, #d4af37 100%);
-            color: white;
-        }
-
-        .btn-small {
-            padding: 8px 16px;
-            font-size: 14px;
-            width: auto;
-            display: inline-block;
-            margin: 5px 5px 5px 0;
-        }
+        .btn-small { padding: 8px 16px; font-size: 14px; width: auto; display: inline-block; margin: 5px 5px 5px 0; }
 
         .line-item {
             background: #f9f9f9;
@@ -230,18 +158,8 @@
             border-left: 4px solid #d4af37;
         }
 
-        .line-item-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 10px;
-        }
-
-        .line-item-title {
-            font-weight: 600;
-            color: #333;
-            font-size: 15px;
-        }
+        .line-item-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+        .line-item-title  { font-weight: 600; color: #333; font-size: 15px; }
 
         .line-item-delete {
             background: linear-gradient(90deg, #000000 0%, #d4af37 100%);
@@ -253,21 +171,8 @@
             cursor: pointer;
         }
 
-        .line-item-details {
-            display: grid;
-            grid-template-columns: 1fr 1fr 1fr;
-            gap: 10px;
-            font-size: 13px;
-            color: #666;
-        }
-
-        .line-item-total {
-            text-align: right;
-            font-weight: 600;
-            color: #d4af37;
-            margin-top: 8px;
-            font-size: 16px;
-        }
+        .line-item-details { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; font-size: 13px; color: #666; }
+        .line-item-total   { text-align: right; font-weight: 600; color: #d4af37; margin-top: 8px; font-size: 16px; }
 
         .pricing-item {
             display: grid;
@@ -280,10 +185,7 @@
             margin-bottom: 10px;
         }
 
-        .pricing-item input {
-            padding: 8px 10px;
-            font-size: 14px;
-        }
+        .pricing-item input { padding: 8px 10px; font-size: 14px; }
 
         .estimate-summary {
             background: linear-gradient(135deg, #f6f9fc 0%, #eef2f7 100%);
@@ -292,12 +194,7 @@
             margin-top: 20px;
         }
 
-        .summary-row {
-            display: flex;
-            justify-content: space-between;
-            padding: 10px 0;
-            border-bottom: 1px solid #ddd;
-        }
+        .summary-row { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #ddd; }
 
         .summary-row:last-child {
             border-bottom: none;
@@ -306,28 +203,10 @@
             border-top: 2px solid #d4af37;
         }
 
-        .summary-label {
-            font-size: 14px;
-            color: #666;
-        }
-
-        .summary-value {
-            font-size: 14px;
-            font-weight: 600;
-            color: #333;
-        }
-
-        .total-label {
-            font-size: 18px;
-            font-weight: 700;
-            color: #d4af37;
-        }
-
-        .total-value {
-            font-size: 24px;
-            font-weight: 700;
-            color: #d4af37;
-        }
+        .summary-label { font-size: 14px; color: #666; }
+        .summary-value { font-size: 14px; font-weight: 600; color: #333; }
+        .total-label   { font-size: 18px; font-weight: 700; color: #d4af37; }
+        .total-value   { font-size: 24px; font-weight: 700; color: #d4af37; }
 
         .toast {
             position: fixed;
@@ -343,40 +222,25 @@
             z-index: 1000;
         }
 
-        .toast.show {
-            display: block;
-            animation: toastIn 0.3s ease;
-        }
+        .toast.show { display: block; animation: toastIn 0.3s ease; }
 
         @keyframes toastIn {
-            from {
-                opacity: 0;
-                transform: translateX(-50%) translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateX(-50%) translateY(0);
-            }
+            from { opacity: 0; transform: translateX(-50%) translateY(20px); }
+            to   { opacity: 1; transform: translateX(-50%) translateY(0); }
         }
 
         .modal {
             display: none;
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
             background: rgba(0,0,0,0.5);
             z-index: 2000;
             overflow-y: auto;
             padding: 20px;
         }
 
-        .modal.show {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
+        .modal.show { display: flex; align-items: center; justify-content: center; }
 
         .modal-content {
             background: white;
@@ -390,43 +254,15 @@
         }
 
         @keyframes modalSlideIn {
-            from {
-                opacity: 0;
-                transform: translateY(-20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+            from { opacity: 0; transform: translateY(-20px); }
+            to   { opacity: 1; transform: translateY(0); }
         }
 
-        .modal-header {
-            padding: 20px;
-            border-bottom: 2px solid #e0e0e0;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
+        .modal-header { padding: 20px; border-bottom: 2px solid #e0e0e0; display: flex; justify-content: space-between; align-items: center; }
+        .modal-header h2 { font-size: 20px; color: #333; }
 
-        .modal-header h2 {
-            font-size: 20px;
-            color: #333;
-        }
-
-        .modal-close {
-            background: none;
-            border: none;
-            font-size: 24px;
-            color: #999;
-            cursor: pointer;
-            padding: 0;
-            width: 30px;
-            height: 30px;
-        }
-
-        .modal-body {
-            padding: 20px;
-        }
+        .modal-close { background: none; border: none; font-size: 24px; color: #999; cursor: pointer; padding: 0; width: 30px; height: 30px; }
+        .modal-body  { padding: 20px; }
 
         .document-preview {
             background: white;
@@ -440,43 +276,24 @@
             margin-bottom: 15px;
         }
 
-        .empty-state {
-            text-align: center;
-            padding: 40px 20px;
-            color: #999;
-        }
+        .empty-state      { text-align: center; padding: 40px 20px; color: #999; }
+        .empty-state-icon { font-size: 48px; margin-bottom: 15px; }
 
-        .empty-state-icon {
-            font-size: 48px;
-            margin-bottom: 15px;
-        }
-
-        .badge {
-            display: inline-block;
-            padding: 4px 10px;
-            border-radius: 12px;
-            font-size: 12px;
-            font-weight: 600;
-            margin-left: 8px;
-        }
-
-        .badge-unit {
-            background: #fff9e6;
-            color: #d4af37;
-        }
+        .badge      { display: inline-block; padding: 4px 10px; border-radius: 12px; font-size: 12px; font-weight: 600; margin-left: 8px; }
+        .badge-unit { background: #fff9e6; color: #d4af37; }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="header">
-            <h1>🔧 DTP Estimator Pro</h1>
-            <p>Professional estimates & work orders</p>
+            <h1>&#128296; DTP Estimator Pro</h1>
+            <p>Professional estimates &amp; work orders</p>
         </div>
 
         <div class="tabs">
             <button class="tab active" onclick="switchTab('estimate')">New Estimate</button>
             <button class="tab" onclick="switchTab('pricing')">Pricing Database</button>
-            <button class="settings-gear" onclick="openSettings()" title="Settings">⚙️</button>
+            <button class="settings-gear" onclick="openSettings()" title="Settings">&#9881;&#65039;</button>
         </div>
 
         <!-- ESTIMATE TAB -->
@@ -506,16 +323,16 @@
                     </div>
                     <div>
                         <label for="subPayoutPercent">Subcontractor Payout (%)</label>
-                        <input type="number" id="subPayoutPercent" step="0.1" min="0" max="100" value="70" readonly style="background: #f5f5f5;">
+                        <input type="number" id="subPayoutPercent" step="0.1" min="0" max="100" value="70" readonly style="background:#f5f5f5;">
                     </div>
                 </div>
-                <div style="background: #fff9e6; padding: 12px; border-radius: 8px; font-size: 13px; color: #666; margin-top: 10px;">
-                    💡 <strong>How it works:</strong> The Work Order total will be calculated at <span id="payoutDisplay">70</span>% of your fully marked-up estimate, leaving <span id="marginDisplay">30</span>% as your gross margin.
+                <div style="background:#fff9e6;padding:12px;border-radius:8px;font-size:13px;color:#666;margin-top:10px;">
+                    &#128161; <strong>How it works:</strong> The Work Order total will be calculated at <span id="payoutDisplay">70</span>% of your fully marked-up estimate, leaving <span id="marginDisplay">30</span>% as your gross margin.
                 </div>
             </div>
 
             <div class="section">
-                <div class="section-title">Overhead & Profit (for Customer)</div>
+                <div class="section-title">Overhead &amp; Profit (for Customer)</div>
                 <div class="input-group">
                     <div>
                         <label for="overheadPercent">Overhead (%)</label>
@@ -526,8 +343,8 @@
                         <input type="number" id="profitPercent" step="0.1" min="0" max="100" value="10" onchange="updateMarginCalculations()">
                     </div>
                 </div>
-                <div style="background: #fff9e6; padding: 12px; border-radius: 8px; font-size: 13px; color: #666; margin-top: 10px;">
-                    💡 <strong>How it works:</strong> Overhead & Profit are added to your line items to create the customer price. Example: $1,000 in costs + 10% overhead ($100) + 10% profit ($100) = $1,200 customer total. Your subcontractor gets paid based on this fully marked-up amount.
+                <div style="background:#fff9e6;padding:12px;border-radius:8px;font-size:13px;color:#666;margin-top:10px;">
+                    &#128161; <strong>How it works:</strong> Overhead &amp; Profit are added to your line items to create the customer price. Example: $1,000 in costs + 10% overhead ($100) + 10% profit ($100) = $1,200 customer total.
                 </div>
             </div>
 
@@ -546,21 +363,21 @@
                     </div>
                     <div>
                         <label>Unit Price</label>
-                        <input type="text" id="unitPrice" readonly style="background: #f5f5f5;">
+                        <input type="text" id="unitPrice" readonly style="background:#f5f5f5;">
                     </div>
                 </div>
                 <button class="btn" onclick="addLineItem()">+ Add Line Item</button>
             </div>
 
-            <div class="section" id="lineItemsSection" style="display: none;">
+            <div class="section" id="lineItemsSection" style="display:none;">
                 <div class="section-title">Line Items</div>
                 <div id="lineItemsList"></div>
             </div>
 
-            <div id="estimateSummary" style="display: none;">
+            <div id="estimateSummary" style="display:none;">
                 <div class="estimate-summary">
                     <div class="summary-row">
-                        <span class="summary-label">Materials & Labor Subtotal:</span>
+                        <span class="summary-label">Materials &amp; Labor Subtotal:</span>
                         <span class="summary-value" id="subtotal">$0.00</span>
                     </div>
                     <div class="summary-row">
@@ -575,19 +392,19 @@
                         <span class="total-label">Customer Total:</span>
                         <span class="total-value" id="grandTotal">$0.00</span>
                     </div>
-                    <div class="summary-row" style="background: #f0f0f0; margin: 10px -20px 0 -20px; padding: 10px 20px; border-radius: 8px;">
+                    <div class="summary-row" style="background:#f0f0f0;margin:10px -20px 0 -20px;padding:10px 20px;border-radius:8px;">
                         <span class="summary-label">Subcontractor Payout (<span id="payoutPercentDisplay">70</span>%):</span>
-                        <span class="summary-value" style="color: #d4af37; font-weight: 700;" id="subPayout">$0.00</span>
+                        <span class="summary-value" style="color:#d4af37;font-weight:700;" id="subPayout">$0.00</span>
                     </div>
-                    <div class="summary-row" style="background: #f0f0f0; margin: 0 -20px -20px -20px; padding: 10px 20px 20px 20px; border-radius: 0 0 8px 8px;">
+                    <div class="summary-row" style="background:#f0f0f0;margin:0 -20px -20px -20px;padding:10px 20px 20px 20px;border-radius:0 0 8px 8px;">
                         <span class="summary-label">Your Gross Margin (<span id="marginPercentDisplay">30</span>%):</span>
-                        <span class="summary-value" style="color: #d4af37; font-weight: 700;" id="grossMargin">$0.00</span>
+                        <span class="summary-value" style="color:#d4af37;font-weight:700;" id="grossMargin">$0.00</span>
                     </div>
                 </div>
-                <button class="btn btn-success" onclick="showDocumentModal('workorder')">📋 Create Work Order (for Subcontractor)</button>
-                <button class="btn btn-secondary" onclick="showDocumentModal('changeorder')">📄 Create Change Order (for Customer)</button>
-                <button class="btn" onclick="saveCurrentEstimate()">💾 Save This Estimate</button>
-                <button class="btn btn-secondary" onclick="createNewEstimate()">📝 Create New Estimate</button>
+                <button class="btn btn-success" onclick="showDocumentModal('workorder')">&#128203; Create Work Order (for Subcontractor)</button>
+                <button class="btn btn-secondary" onclick="showDocumentModal('changeorder')">&#128196; Create Change Order (for Customer)</button>
+                <button class="btn" onclick="saveCurrentEstimate()">&#128190; Save This Estimate</button>
+                <button class="btn btn-secondary" onclick="createNewEstimate()">&#128221; Create New Estimate</button>
             </div>
         </div>
 
@@ -596,9 +413,8 @@
             <div class="section">
                 <div class="section-title">Manage Pricing</div>
                 <button class="btn" onclick="addPricingItem()">+ Add New Item</button>
-                <button class="btn btn-secondary" onclick="viewSavedEstimates()">📁 View Saved Estimates</button>
+                <button class="btn btn-secondary" onclick="viewSavedEstimates()">&#128193; View Saved Estimates</button>
             </div>
-
             <div class="section">
                 <div id="pricingList"></div>
             </div>
@@ -614,9 +430,9 @@
             </div>
             <div class="modal-body">
                 <div id="documentPreview" class="document-preview"></div>
-                <button class="btn btn-success" onclick="downloadPDF()">📥 Download PDF</button>
-                <button class="btn" onclick="copyDocument()">📋 Copy to Clipboard</button>
-                <button class="btn btn-secondary" onclick="shareDocument()">📤 Share</button>
+                <button class="btn btn-success" onclick="downloadPDF()">&#128229; Download PDF</button>
+                <button class="btn" onclick="copyDocument()">&#128203; Copy to Clipboard</button>
+                <button class="btn btn-secondary" onclick="shareDocument()">&#128228; Share</button>
             </div>
         </div>
     </div>
@@ -625,7 +441,7 @@
     <div id="settingsModal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
-                <h2>⚙️ Settings</h2>
+                <h2>&#9881;&#65039; Settings</h2>
                 <button class="modal-close" onclick="closeSettings()">&times;</button>
             </div>
             <div class="modal-body">
@@ -633,19 +449,18 @@
                     <div class="section-title">Company Logo</div>
                     <div class="input-wrapper">
                         <label for="logoUpload">Upload Company Logo</label>
-                        <input type="file" id="logoUpload" accept="image/*" onchange="handleLogoUpload(event)" style="padding: 10px;">
+                        <input type="file" id="logoUpload" accept="image/*" onchange="handleLogoUpload(event)" style="padding:10px;">
                     </div>
-                    <div id="logoPreview" style="display: none; margin-top: 15px; text-align: center;">
-                        <img id="logoImage" style="max-width: 200px; max-height: 100px; border: 2px solid #e0e0e0; border-radius: 10px; padding: 10px; background: white;">
-                        <div style="margin-top: 10px;">
+                    <div id="logoPreview" style="display:none;margin-top:15px;text-align:center;">
+                        <img id="logoImage" style="max-width:200px;max-height:100px;border:2px solid #e0e0e0;border-radius:10px;padding:10px;background:white;">
+                        <div style="margin-top:10px;">
                             <button class="btn btn-danger btn-small" onclick="removeLogo()">Remove Logo</button>
                         </div>
                     </div>
-                    <div style="background: #fff9e6; padding: 12px; border-radius: 8px; font-size: 13px; color: #666; margin-top: 10px;">
-                        💡 <strong>Tip:</strong> Your logo will appear on all work orders and change orders. For best results, use a transparent PNG file.
+                    <div style="background:#fff9e6;padding:12px;border-radius:8px;font-size:13px;color:#666;margin-top:10px;">
+                        &#128161; <strong>Tip:</strong> Your logo will appear on all work orders and change orders. For best results, use a transparent PNG file.
                     </div>
                 </div>
-
                 <div class="section">
                     <div class="section-title">Company Information</div>
                     <div class="input-wrapper">
@@ -661,7 +476,6 @@
                         <input type="tel" id="companyPhone" placeholder="e.g., (555) 123-4567" onchange="saveSettings()">
                     </div>
                 </div>
-
                 <div class="section">
                     <div class="section-title">Project Manager Information</div>
                     <div class="input-wrapper">
@@ -676,13 +490,12 @@
                         <label for="pmEmail">Project Manager Email</label>
                         <input type="email" id="pmEmail" placeholder="e.g., jsmith@company.com" onchange="saveSettings()">
                     </div>
-                    <div style="background: #fff9e6; padding: 12px; border-radius: 8px; font-size: 13px; color: #666; margin-top: 10px;">
-                        💡 <strong>How it works:</strong> This information will automatically appear on all work orders and change orders you generate, saving you time on every estimate.
+                    <div style="background:#fff9e6;padding:12px;border-radius:8px;font-size:13px;color:#666;margin-top:10px;">
+                        &#128161; <strong>How it works:</strong> This information will automatically appear on all work orders and change orders you generate.
                     </div>
                 </div>
-
                 <div class="section">
-                    <button class="btn btn-success" onclick="saveSettingsAndClose()">💾 Save Settings</button>
+                    <button class="btn btn-success" onclick="saveSettingsAndClose()">&#128190; Save Settings</button>
                 </div>
             </div>
         </div>
@@ -692,7 +505,7 @@
     <div id="savedEstimatesModal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
-                <h2>📁 Saved Estimates</h2>
+                <h2>&#128193; Saved Estimates</h2>
                 <button class="modal-close" onclick="closeSavedEstimates()">&times;</button>
             </div>
             <div class="modal-body">
@@ -704,111 +517,92 @@
     <div id="toast" class="toast">Action completed!</div>
 
     <script>
-        // Default pricing database
+        // ─── PRICING DATABASE ────────────────────────────────────────────────────────
+        // Proprietary descriptions — updated pricing (+9.88%), Xactimate codes removed
         let pricingDatabase = [
-            { id: 1, name: 'Content Manipulation', unit: 'hour', price: 53.30 },
-            { id: 2, name: 'Pickup Truck Dump Run', unit: 'each', price: 168.50 },
-            { id: 3, name: 'DRY - 1/2" Drywall - Hung, Taped, Texture', unit: 'sq ft', price: 3.32 },
-            { id: 4, name: 'DRY - 5/8" Drywall - Hung, Taped, Texture', unit: 'sq ft', price: 3.04 },
-            { id: 5, name: 'DRY - Texture Drywall - Heavy Hand Texture', unit: 'sq ft', price: 1.74 },
-            { id: 6, name: 'DRY - 1/2" Drywall per LF - Up to 2\' Tall - Flood Cuts', unit: 'lin ft', price: 13.46 },
-            { id: 7, name: 'DRY - Mask per Square Foot for Drywall Work', unit: 'sq ft', price: 0.33 },
-            { id: 8, name: 'DRY - Drywall Patch / Small Repair, Ready for Paint', unit: 'each', price: 107.95 },
-            { id: 9, name: 'DRY - Tape Joint for New to Existing Drywall - per LF', unit: 'lin ft', price: 8.98 },
-            { id: 10, name: 'DRY - Drywall Labor', unit: 'hour', price: 65.00 },
-            { id: 11, name: 'FNC - Baseboard - 3 1/4"', unit: 'lin ft', price: 4.77 },
-            { id: 12, name: 'FNC - Baseboard - 5 1/4"', unit: 'lin ft', price: 5.59 },
-            { id: 13, name: 'FNC - Casing - 3 1/4"', unit: 'lin ft', price: 3.75 },
-            { id: 14, name: 'FNC - Finish Carpenter Labor', unit: 'hour', price: 75.00 },
-            { id: 15, name: 'INS - Batt Insulation - 6" - R19 - Paper Faced', unit: 'sq ft', price: 1.51 },
-            { id: 16, name: 'PNT - Baseboard - 2 Coats', unit: 'lin ft', price: 2.68 },
-            { id: 17, name: 'PNT - Casing - 2 Coats', unit: 'lin ft', price: 2.55 },
-            { id: 18, name: 'PNT - Paint Door Slab Only - 2 Coats (per Side)', unit: 'each', price: 61.06 },
-            { id: 19, name: 'PNT - Mask per Square Foot - Plastic and Tape - 4 Mil', unit: 'sq ft', price: 0.40 },
-            { id: 20, name: 'PNT - Paint Walls & Ceilings - Two Coats', unit: 'sq ft', price: 1.98 },
-            { id: 21, name: 'PNT - Paint Labor', unit: 'hour', price: 75.00 }
+            { id:  1, name: 'Content Handling & Relocation',               unit: 'hour',   price:  58.56 },
+            { id:  2, name: 'Pickup Truck Disposal Run',                   unit: 'each',   price: 185.18 },
+            { id:  3, name: '1/2" Drywall \u2013 Supply & Install',        unit: 'sq ft',  price:   3.65 },
+            { id:  4, name: '5/8" Drywall \u2013 Supply & Install',        unit: 'sq ft',  price:   3.34 },
+            { id:  5, name: 'Heavy Texture \u2013 Drywall Finish',         unit: 'sq ft',  price:   1.91 },
+            { id:  6, name: '1/2" Drywall \u2013 Replaced by Linear Foot', unit: 'lin ft', price:  14.79 },
+            { id:  7, name: 'Floor Masking \u2013 Per Square Foot',        unit: 'sq ft',  price:   0.36 },
+            { id:  8, name: 'Drywall Patch / Minor Repair',                unit: 'each',   price: 118.62 },
+            { id:  9, name: 'Tape & Bed \u2013 New to Existing Joint',     unit: 'lin ft', price:   9.87 },
+            { id: 10, name: 'Drywall Labor \u2013 Hourly',                 unit: 'hour',   price:  71.42 },
+            { id: 11, name: 'Baseboard Trim \u2013 3-1/4"',               unit: 'lin ft', price:   5.24 },
+            { id: 12, name: 'Baseboard Trim \u2013 5-1/4"',               unit: 'lin ft', price:   6.14 },
+            { id: 13, name: 'Door & Window Casing \u2013 3-1/4"',         unit: 'lin ft', price:   4.12 },
+            { id: 14, name: 'Finish Carpentry Labor \u2013 Hourly',        unit: 'hour',   price:  82.41 },
+            { id: 15, name: 'Batt Insulation \u2013 6" R-19',             unit: 'sq ft',  price:   1.66 },
+            { id: 16, name: 'Paint Baseboard \u2013 2 Coats',             unit: 'lin ft', price:   2.94 },
+            { id: 17, name: 'Paint Casing \u2013 2 Coats',                unit: 'lin ft', price:   2.80 },
+            { id: 18, name: 'Paint Door Slab Only \u2013 2 Coats',        unit: 'each',   price:  67.09 },
+            { id: 19, name: 'Surface Masking \u2013 Per Square Foot',      unit: 'sq ft',  price:   0.44 },
+            { id: 20, name: 'Paint Walls & Ceilings \u2013 2 Coats',      unit: 'sq ft',  price:   2.18 },
+            { id: 21, name: 'Paint Labor \u2013 Hourly',                   unit: 'hour',   price:  82.41 }
         ];
 
-        let lineItems = [];
-        let nextId = pricingDatabase.length + 1;
-        let savedEstimates = [];
-        let companySettings = {
-            logo: null,
-            companyName: '',
-            companyAddress: '',
-            companyPhone: '',
-            pmName: '',
-            pmPhone: '',
-            pmEmail: ''
-        };
+        let lineItems       = [];
+        let nextId          = pricingDatabase.length + 1;
+        let savedEstimates  = [];
+        let companySettings = { logo: null, companyName: '', companyAddress: '', companyPhone: '', pmName: '', pmPhone: '', pmEmail: '' };
 
-        // Load from localStorage if available
+        // ─── DATA PERSISTENCE ────────────────────────────────────────────────────────
         function loadData() {
-            const saved = localStorage.getItem('pricingDatabase');
+            const saved = localStorage.getItem('dtpPricingDatabase');
             if (saved) {
                 pricingDatabase = JSON.parse(saved);
-                nextId = Math.max(...pricingDatabase.map(item => item.id)) + 1;
+                nextId = Math.max(...pricingDatabase.map(i => i.id)) + 1;
             }
-            
             const savedSettings = localStorage.getItem('companySettings');
-            if (savedSettings) {
-                companySettings = JSON.parse(savedSettings);
-                loadSettingsToForm();
-            }
-            
+            if (savedSettings) { companySettings = JSON.parse(savedSettings); loadSettingsToForm(); }
             const savedEstimatesData = localStorage.getItem('savedEstimates');
-            if (savedEstimatesData) {
-                savedEstimates = JSON.parse(savedEstimatesData);
-            }
-            
+            if (savedEstimatesData) { savedEstimates = JSON.parse(savedEstimatesData); }
             updateMaterialSelect();
             renderPricingList();
         }
 
-        // Load settings into form
+        function saveData() { localStorage.setItem('dtpPricingDatabase', JSON.stringify(pricingDatabase)); }
+
+        // ─── SETTINGS ────────────────────────────────────────────────────────────────
         function loadSettingsToForm() {
-            document.getElementById('companyName').value = companySettings.companyName || '';
+            document.getElementById('companyName').value    = companySettings.companyName    || '';
             document.getElementById('companyAddress').value = companySettings.companyAddress || '';
-            document.getElementById('companyPhone').value = companySettings.companyPhone || '';
-            document.getElementById('pmName').value = companySettings.pmName || '';
-            document.getElementById('pmPhone').value = companySettings.pmPhone || '';
-            document.getElementById('pmEmail').value = companySettings.pmEmail || '';
-            
+            document.getElementById('companyPhone').value   = companySettings.companyPhone   || '';
+            document.getElementById('pmName').value         = companySettings.pmName         || '';
+            document.getElementById('pmPhone').value        = companySettings.pmPhone        || '';
+            document.getElementById('pmEmail').value        = companySettings.pmEmail        || '';
             if (companySettings.logo) {
                 document.getElementById('logoImage').src = companySettings.logo;
                 document.getElementById('logoPreview').style.display = 'block';
             }
         }
 
-        // Save settings
         function saveSettings() {
-            companySettings.companyName = document.getElementById('companyName').value;
+            companySettings.companyName    = document.getElementById('companyName').value;
             companySettings.companyAddress = document.getElementById('companyAddress').value;
-            companySettings.companyPhone = document.getElementById('companyPhone').value;
-            companySettings.pmName = document.getElementById('pmName').value;
-            companySettings.pmPhone = document.getElementById('pmPhone').value;
-            companySettings.pmEmail = document.getElementById('pmEmail').value;
-            
+            companySettings.companyPhone   = document.getElementById('companyPhone').value;
+            companySettings.pmName         = document.getElementById('pmName').value;
+            companySettings.pmPhone        = document.getElementById('pmPhone').value;
+            companySettings.pmEmail        = document.getElementById('pmEmail').value;
             localStorage.setItem('companySettings', JSON.stringify(companySettings));
             showToast('Settings saved!');
         }
 
-        // Handle logo upload
         function handleLogoUpload(event) {
             const file = event.target.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    companySettings.logo = e.target.result;
-                    document.getElementById('logoImage').src = e.target.result;
-                    document.getElementById('logoPreview').style.display = 'block';
-                    saveSettings();
-                };
-                reader.readAsDataURL(file);
-            }
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = e => {
+                companySettings.logo = e.target.result;
+                document.getElementById('logoImage').src = e.target.result;
+                document.getElementById('logoPreview').style.display = 'block';
+                saveSettings();
+            };
+            reader.readAsDataURL(file);
         }
 
-        // Remove logo
         function removeLogo() {
             companySettings.logo = null;
             document.getElementById('logoPreview').style.display = 'none';
@@ -817,244 +611,153 @@
             showToast('Logo removed');
         }
 
-        // Save to localStorage
-        function saveData() {
-            localStorage.setItem('pricingDatabase', JSON.stringify(pricingDatabase));
-        }
+        function openSettings()        { document.getElementById('settingsModal').classList.add('show'); }
+        function closeSettings()       { document.getElementById('settingsModal').classList.remove('show'); }
+        function saveSettingsAndClose(){ saveSettings(); closeSettings(); }
 
-        // Tab switching
+        // ─── TABS ─────────────────────────────────────────────────────────────────────
         function switchTab(tab) {
             document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
             document.querySelectorAll('.tab-content').forEach(tc => tc.classList.remove('active'));
-            
             if (tab === 'estimate') {
                 document.querySelectorAll('.tab')[0].classList.add('active');
                 document.getElementById('estimateTab').classList.add('active');
-            } else if (tab === 'pricing') {
+            } else {
                 document.querySelectorAll('.tab')[1].classList.add('active');
                 document.getElementById('pricingTab').classList.add('active');
             }
         }
 
-        // Settings modal functions
-        function openSettings() {
-            document.getElementById('settingsModal').classList.add('show');
-        }
-
-        function closeSettings() {
-            document.getElementById('settingsModal').classList.remove('show');
-        }
-
-        function saveSettingsAndClose() {
-            saveSettings();
-            closeSettings();
-        }
-
-        // Saved estimates functions
+        // ─── SAVED ESTIMATES ──────────────────────────────────────────────────────────
         function saveCurrentEstimate() {
-            if (lineItems.length === 0) {
-                showToast('Add line items first');
-                return;
-            }
-
-            const projectName = document.getElementById('projectName').value || 'Untitled Project';
-            const customerName = document.getElementById('customerName').value || 'Customer';
-            const projectNotes = document.getElementById('projectNotes').value;
-            const subtotal = lineItems.reduce((sum, item) => sum + item.total, 0);
-            const overheadPercent = parseFloat(document.getElementById('overheadPercent').value) || 0;
-            const profitPercent = parseFloat(document.getElementById('profitPercent').value) || 0;
-            const overheadAmount = subtotal * (overheadPercent / 100);
-            const profitAmount = subtotal * (profitPercent / 100);
-            const customerTotal = subtotal + overheadAmount + profitAmount;
-            
-            const estimate = {
+            if (lineItems.length === 0) { showToast('Add line items first'); return; }
+            const subtotal       = lineItems.reduce((sum, i) => sum + i.total, 0);
+            const overheadPct    = parseFloat(document.getElementById('overheadPercent').value) || 0;
+            const profitPct      = parseFloat(document.getElementById('profitPercent').value)   || 0;
+            const customerTotal  = subtotal * (1 + overheadPct/100 + profitPct/100);
+            savedEstimates.unshift({
                 id: Date.now(),
-                date: new Date().toLocaleDateString(),
-                projectName: projectName,
-                customerName: customerName,
-                projectNotes: projectNotes,
-                lineItems: JSON.parse(JSON.stringify(lineItems)),
-                subtotal: subtotal,
-                overheadPercent: overheadPercent,
-                profitPercent: profitPercent,
-                customerTotal: customerTotal,
+                date:         new Date().toLocaleDateString(),
+                projectName:  document.getElementById('projectName').value  || 'Untitled Project',
+                customerName: document.getElementById('customerName').value || 'Customer',
+                projectNotes: document.getElementById('projectNotes').value,
+                lineItems:    JSON.parse(JSON.stringify(lineItems)),
+                subtotal, overheadPercent: overheadPct, profitPercent: profitPct, customerTotal,
                 grossMarginPercent: parseFloat(document.getElementById('grossMarginPercent').value) || 30
-            };
-
-            savedEstimates.unshift(estimate); // Add to beginning
+            });
             localStorage.setItem('savedEstimates', JSON.stringify(savedEstimates));
             showToast('Estimate saved!');
         }
 
         function createNewEstimate() {
-            if (lineItems.length > 0) {
-                if (!confirm('Clear current estimate and start new? (Make sure to save if needed)')) {
-                    return;
-                }
-            }
-
-            // Clear all fields
-            document.getElementById('projectName').value = '';
+            if (lineItems.length > 0 && !confirm('Clear current estimate and start new? (Make sure to save if needed)')) return;
+            document.getElementById('projectName').value  = '';
             document.getElementById('customerName').value = '';
             document.getElementById('projectNotes').value = '';
-            
-            // Clear line items
             lineItems = [];
             renderLineItems();
             updateSummary();
-            
             showToast('Ready for new estimate!');
         }
 
         function viewSavedEstimates() {
             const container = document.getElementById('savedEstimatesList');
-            
             if (savedEstimates.length === 0) {
-                container.innerHTML = '<div class="empty-state"><div class="empty-state-icon">📋</div><p>No saved estimates yet. Create and save an estimate to see it here!</p></div>';
+                container.innerHTML = '<div class="empty-state"><div class="empty-state-icon">&#128203;</div><p>No saved estimates yet.</p></div>';
             } else {
                 container.innerHTML = '';
-                savedEstimates.forEach(estimate => {
+                savedEstimates.forEach(est => {
                     const div = document.createElement('div');
                     div.className = 'line-item';
                     div.innerHTML = `
                         <div class="line-item-header">
                             <div>
-                                <div class="line-item-title">${estimate.projectName}</div>
-                                <div style="font-size: 12px; color: #999; margin-top: 3px;">${estimate.date} - ${estimate.customerName}</div>
+                                <div class="line-item-title">${est.projectName}</div>
+                                <div style="font-size:12px;color:#999;margin-top:3px;">${est.date} &mdash; ${est.customerName}</div>
                             </div>
-                            <button class="line-item-delete" onclick="deleteEstimate(${estimate.id})">Delete</button>
+                            <button class="line-item-delete" onclick="deleteEstimate(${est.id})">Delete</button>
                         </div>
                         <div class="line-item-details">
-                            <div>${estimate.lineItems.length} items</div>
-                            <div>Total: $${estimate.customerTotal.toFixed(2)}</div>
+                            <div>${est.lineItems.length} items</div>
+                            <div>Total: $${est.customerTotal.toFixed(2)}</div>
                         </div>
-                        <div style="margin-top: 10px;">
-                            <button class="btn btn-small" onclick="loadEstimate(${estimate.id})">Load Estimate</button>
-                        </div>
-                    `;
+                        <div style="margin-top:10px;">
+                            <button class="btn btn-small" onclick="loadEstimate(${est.id})">Load Estimate</button>
+                        </div>`;
                     container.appendChild(div);
                 });
             }
-
             document.getElementById('savedEstimatesModal').classList.add('show');
         }
 
-        function closeSavedEstimates() {
-            document.getElementById('savedEstimatesModal').classList.remove('show');
-        }
+        function closeSavedEstimates() { document.getElementById('savedEstimatesModal').classList.remove('show'); }
 
         function deleteEstimate(id) {
-            if (confirm('Delete this estimate?')) {
-                savedEstimates = savedEstimates.filter(e => e.id !== id);
-                localStorage.setItem('savedEstimates', JSON.stringify(savedEstimates));
-                viewSavedEstimates(); // Refresh the list
-                showToast('Estimate deleted');
-            }
+            if (!confirm('Delete this estimate?')) return;
+            savedEstimates = savedEstimates.filter(e => e.id !== id);
+            localStorage.setItem('savedEstimates', JSON.stringify(savedEstimates));
+            viewSavedEstimates();
+            showToast('Estimate deleted');
         }
 
         function loadEstimate(id) {
-            const estimate = savedEstimates.find(e => e.id === id);
-            if (!estimate) return;
-
-            // Load all data back into the form
-            document.getElementById('projectName').value = estimate.projectName;
-            document.getElementById('customerName').value = estimate.customerName;
-            document.getElementById('projectNotes').value = estimate.projectNotes;
-            document.getElementById('overheadPercent').value = estimate.overheadPercent;
-            document.getElementById('profitPercent').value = estimate.profitPercent;
-            document.getElementById('grossMarginPercent').value = estimate.grossMarginPercent;
-
-            // Load line items
-            lineItems = JSON.parse(JSON.stringify(estimate.lineItems));
-            
-            // Switch to estimate tab and update UI
+            const est = savedEstimates.find(e => e.id === id);
+            if (!est) return;
+            document.getElementById('projectName').value       = est.projectName;
+            document.getElementById('customerName').value      = est.customerName;
+            document.getElementById('projectNotes').value      = est.projectNotes;
+            document.getElementById('overheadPercent').value   = est.overheadPercent;
+            document.getElementById('profitPercent').value     = est.profitPercent;
+            document.getElementById('grossMarginPercent').value = est.grossMarginPercent;
+            lineItems = JSON.parse(JSON.stringify(est.lineItems));
             switchTab('estimate');
             closeSavedEstimates();
             renderLineItems();
             updateSummary();
             updateMarginCalculations();
-            
             showToast('Estimate loaded!');
         }
 
-        // Update material select dropdown
+        // ─── DROPDOWN ─────────────────────────────────────────────────────────────────
         function updateMaterialSelect() {
             const select = document.getElementById('materialSelect');
             select.innerHTML = '<option value="">Select material or service...</option>';
-            
             pricingDatabase.forEach(item => {
-                const option = document.createElement('option');
-                option.value = item.id;
-                option.textContent = `${item.name} - $${item.price.toFixed(2)}/${item.unit}`;
-                select.appendChild(option);
+                const opt = document.createElement('option');
+                opt.value = item.id;
+                opt.textContent = `${item.name} - $${item.price.toFixed(2)}/${item.unit}`;
+                select.appendChild(opt);
             });
         }
 
-        // Update unit price when material is selected
-        document.getElementById('materialSelect').addEventListener('change', function() {
-            const itemId = parseInt(this.value);
-            const item = pricingDatabase.find(i => i.id === itemId);
-            const unitPriceInput = document.getElementById('unitPrice');
-            
-            if (item) {
-                unitPriceInput.value = `$${item.price.toFixed(2)}/${item.unit}`;
-            } else {
-                unitPriceInput.value = '';
-            }
+        document.getElementById('materialSelect').addEventListener('change', function () {
+            const item = pricingDatabase.find(i => i.id === parseInt(this.value));
+            document.getElementById('unitPrice').value = item ? `$${item.price.toFixed(2)}/${item.unit}` : '';
         });
 
-        // Add line item to estimate
+        // ─── ADD / REMOVE LINE ITEMS ──────────────────────────────────────────────────
         function addLineItem() {
             const materialId = parseInt(document.getElementById('materialSelect').value);
-            const quantity = parseFloat(document.getElementById('quantity').value);
-
-            if (!materialId || !quantity || quantity <= 0) {
-                showToast('Please select a material and enter quantity');
-                return;
-            }
-
+            const quantity   = parseFloat(document.getElementById('quantity').value);
+            if (!materialId || !quantity || quantity <= 0) { showToast('Please select a material and enter quantity'); return; }
             const material = pricingDatabase.find(i => i.id === materialId);
-            const total = quantity * material.price;
-
-            lineItems.push({
-                id: Date.now(),
-                materialId: material.id,
-                name: material.name,
-                quantity: quantity,
-                unit: material.unit,
-                unitPrice: material.price,
-                total: total
-            });
-
-            // Clear inputs
+            lineItems.push({ id: Date.now(), materialId: material.id, name: material.name, quantity, unit: material.unit, unitPrice: material.price, total: quantity * material.price });
             document.getElementById('materialSelect').value = '';
-            document.getElementById('quantity').value = '';
-            document.getElementById('unitPrice').value = '';
-
+            document.getElementById('quantity').value       = '';
+            document.getElementById('unitPrice').value      = '';
             renderLineItems();
             updateSummary();
         }
 
-        // Remove line item
-        function removeLineItem(id) {
-            lineItems = lineItems.filter(item => item.id !== id);
-            renderLineItems();
-            updateSummary();
-        }
+        function removeLineItem(id) { lineItems = lineItems.filter(i => i.id !== id); renderLineItems(); updateSummary(); }
 
-        // Render line items
+        // ─── RENDER ───────────────────────────────────────────────────────────────────
         function renderLineItems() {
             const container = document.getElementById('lineItemsList');
-            const section = document.getElementById('lineItemsSection');
-
-            if (lineItems.length === 0) {
-                section.style.display = 'none';
-                return;
-            }
-
+            const section   = document.getElementById('lineItemsSection');
+            if (lineItems.length === 0) { section.style.display = 'none'; return; }
             section.style.display = 'block';
-            container.innerHTML = '';
-
+            container.innerHTML   = '';
             lineItems.forEach(item => {
                 const div = document.createElement('div');
                 div.className = 'line-item';
@@ -1067,145 +770,105 @@
                         <div>Qty: ${item.quantity.toFixed(2)} ${item.unit}</div>
                         <div>@ $${item.unitPrice.toFixed(2)}/${item.unit}</div>
                     </div>
-                    <div class="line-item-total">$${item.total.toFixed(2)}</div>
-                `;
+                    <div class="line-item-total">$${item.total.toFixed(2)}</div>`;
                 container.appendChild(div);
             });
         }
 
-        // Update margin calculations when percentage changes
+        // ─── CALCULATIONS ─────────────────────────────────────────────────────────────
         function updateMarginCalculations() {
-            const marginPercent = parseFloat(document.getElementById('grossMarginPercent').value) || 0;
-            const payoutPercent = 100 - marginPercent;
-            
-            document.getElementById('subPayoutPercent').value = payoutPercent.toFixed(1);
-            document.getElementById('payoutDisplay').textContent = payoutPercent.toFixed(1);
-            document.getElementById('marginDisplay').textContent = marginPercent.toFixed(1);
-            
-            // Update summary if it's visible
-            if (lineItems.length > 0) {
-                updateSummary();
-            }
+            const marginPct = parseFloat(document.getElementById('grossMarginPercent').value) || 0;
+            const payoutPct = 100 - marginPct;
+            document.getElementById('subPayoutPercent').value  = payoutPct.toFixed(1);
+            document.getElementById('payoutDisplay').textContent = payoutPct.toFixed(1);
+            document.getElementById('marginDisplay').textContent = marginPct.toFixed(1);
+            if (lineItems.length > 0) updateSummary();
         }
 
-        // Update estimate summary
         function updateSummary() {
             const summaryDiv = document.getElementById('estimateSummary');
-            
-            if (lineItems.length === 0) {
-                summaryDiv.style.display = 'none';
-                return;
-            }
-
+            if (lineItems.length === 0) { summaryDiv.style.display = 'none'; return; }
             summaryDiv.style.display = 'block';
-
-            const subtotal = lineItems.reduce((sum, item) => sum + item.total, 0);
-            const overheadPercent = parseFloat(document.getElementById('overheadPercent').value) || 0;
-            const profitPercent = parseFloat(document.getElementById('profitPercent').value) || 0;
-            const marginPercent = parseFloat(document.getElementById('grossMarginPercent').value) || 30;
-            const payoutPercent = 100 - marginPercent;
-            
-            const overheadAmount = subtotal * (overheadPercent / 100);
-            const profitAmount = subtotal * (profitPercent / 100);
-            const customerTotal = subtotal + overheadAmount + profitAmount;
-            const subPayout = customerTotal * (payoutPercent / 100);
-            const grossMargin = customerTotal - subPayout;
-            
-            document.getElementById('subtotal').textContent = `$${subtotal.toFixed(2)}`;
-            document.getElementById('overheadAmount').textContent = `$${overheadAmount.toFixed(2)}`;
-            document.getElementById('profitAmount').textContent = `$${profitAmount.toFixed(2)}`;
-            document.getElementById('grandTotal').textContent = `$${customerTotal.toFixed(2)}`;
-            document.getElementById('subPayout').textContent = `$${subPayout.toFixed(2)}`;
-            document.getElementById('grossMargin').textContent = `$${grossMargin.toFixed(2)}`;
-            document.getElementById('payoutPercentDisplay').textContent = payoutPercent.toFixed(1);
-            document.getElementById('marginPercentDisplay').textContent = marginPercent.toFixed(1);
-            document.getElementById('overheadPercentDisplay').textContent = overheadPercent.toFixed(1);
-            document.getElementById('profitPercentDisplay').textContent = profitPercent.toFixed(1);
+            const subtotal      = lineItems.reduce((sum, i) => sum + i.total, 0);
+            const overheadPct   = parseFloat(document.getElementById('overheadPercent').value)    || 0;
+            const profitPct     = parseFloat(document.getElementById('profitPercent').value)       || 0;
+            const marginPct     = parseFloat(document.getElementById('grossMarginPercent').value)  || 30;
+            const payoutPct     = 100 - marginPct;
+            const overheadAmt   = subtotal * (overheadPct / 100);
+            const profitAmt     = subtotal * (profitPct   / 100);
+            const customerTotal = subtotal + overheadAmt + profitAmt;
+            const subPayout     = customerTotal * (payoutPct / 100);
+            const grossMargin   = customerTotal - subPayout;
+            document.getElementById('subtotal').textContent             = `$${subtotal.toFixed(2)}`;
+            document.getElementById('overheadAmount').textContent       = `$${overheadAmt.toFixed(2)}`;
+            document.getElementById('profitAmount').textContent         = `$${profitAmt.toFixed(2)}`;
+            document.getElementById('grandTotal').textContent           = `$${customerTotal.toFixed(2)}`;
+            document.getElementById('subPayout').textContent            = `$${subPayout.toFixed(2)}`;
+            document.getElementById('grossMargin').textContent          = `$${grossMargin.toFixed(2)}`;
+            document.getElementById('payoutPercentDisplay').textContent  = payoutPct.toFixed(1);
+            document.getElementById('marginPercentDisplay').textContent  = marginPct.toFixed(1);
+            document.getElementById('overheadPercentDisplay').textContent = overheadPct.toFixed(1);
+            document.getElementById('profitPercentDisplay').textContent   = profitPct.toFixed(1);
         }
 
-        // Pricing database management
+        // ─── PRICING DATABASE MANAGEMENT ─────────────────────────────────────────────
         function renderPricingList() {
             const container = document.getElementById('pricingList');
             container.innerHTML = '';
-
             if (pricingDatabase.length === 0) {
-                container.innerHTML = '<div class="empty-state"><div class="empty-state-icon">📋</div><p>No pricing items yet. Add your first item!</p></div>';
+                container.innerHTML = '<div class="empty-state"><div class="empty-state-icon">&#128203;</div><p>No pricing items yet. Add your first item!</p></div>';
                 return;
             }
-
             pricingDatabase.forEach(item => {
                 const div = document.createElement('div');
                 div.className = 'pricing-item';
                 div.innerHTML = `
                     <input type="text" value="${item.name}" onchange="updatePricingItem(${item.id}, 'name', this.value)">
-                    <div style="display: flex; align-items: center; gap: 5px;">
-                        <input type="number" step="0.01" value="${item.price}" onchange="updatePricingItem(${item.id}, 'price', parseFloat(this.value))" style="width: 80px;">
+                    <div style="display:flex;align-items:center;gap:5px;">
+                        <input type="number" step="0.01" value="${item.price}" onchange="updatePricingItem(${item.id}, 'price', parseFloat(this.value))" style="width:80px;">
                         <span class="badge badge-unit">/${item.unit}</span>
                     </div>
                     <select onchange="updatePricingItem(${item.id}, 'unit', this.value)">
-                        <option value="sq ft" ${item.unit === 'sq ft' ? 'selected' : ''}>sq ft</option>
-                        <option value="lin ft" ${item.unit === 'lin ft' ? 'selected' : ''}>lin ft</option>
-                        <option value="each" ${item.unit === 'each' ? 'selected' : ''}>each</option>
-                        <option value="hour" ${item.unit === 'hour' ? 'selected' : ''}>hour</option>
+                        <option value="sq ft"  ${item.unit==='sq ft'  ?'selected':''}>sq ft</option>
+                        <option value="lin ft" ${item.unit==='lin ft' ?'selected':''}>lin ft</option>
+                        <option value="each"   ${item.unit==='each'   ?'selected':''}>each</option>
+                        <option value="hour"   ${item.unit==='hour'   ?'selected':''}>hour</option>
                     </select>
-                    <button class="line-item-delete" onclick="deletePricingItem(${item.id})">✕</button>
-                `;
+                    <button class="line-item-delete" onclick="deletePricingItem(${item.id})">&#10005;</button>`;
                 container.appendChild(div);
             });
         }
 
         function addPricingItem() {
-            const newItem = {
-                id: nextId++,
-                name: 'New Item',
-                unit: 'sq ft',
-                price: 0
-            };
-            pricingDatabase.push(newItem);
-            saveData();
-            updateMaterialSelect();
-            renderPricingList();
-            showToast('Item added');
+            pricingDatabase.push({ id: nextId++, name: 'New Item', unit: 'sq ft', price: 0 });
+            saveData(); updateMaterialSelect(); renderPricingList(); showToast('Item added');
         }
 
         function updatePricingItem(id, field, value) {
             const item = pricingDatabase.find(i => i.id === id);
-            if (item) {
-                item[field] = value;
-                saveData();
-                updateMaterialSelect();
-                showToast('Pricing updated');
-            }
+            if (!item) return;
+            item[field] = value;
+            saveData(); updateMaterialSelect(); showToast('Pricing updated');
         }
 
         function deletePricingItem(id) {
-            if (confirm('Delete this pricing item?')) {
-                pricingDatabase = pricingDatabase.filter(i => i.id !== id);
-                saveData();
-                updateMaterialSelect();
-                renderPricingList();
-                showToast('Item deleted');
-            }
+            if (!confirm('Delete this pricing item?')) return;
+            pricingDatabase = pricingDatabase.filter(i => i.id !== id);
+            saveData(); updateMaterialSelect(); renderPricingList(); showToast('Item deleted');
         }
 
-        // Document generation
+        // ─── DOCUMENT GENERATION ─────────────────────────────────────────────────────
         let currentDocument = '';
-        let currentDocType = '';
+        let currentDocType  = '';
 
         function showDocumentModal(type) {
-            if (lineItems.length === 0) {
-                showToast('Add line items first');
-                return;
-            }
-
-            const projectName = document.getElementById('projectName').value || 'Untitled Project';
+            if (lineItems.length === 0) { showToast('Add line items first'); return; }
+            const projectName  = document.getElementById('projectName').value  || 'Untitled Project';
             const customerName = document.getElementById('customerName').value || 'Customer';
             const projectNotes = document.getElementById('projectNotes').value;
-            const today = new Date().toLocaleDateString();
-            const docNumber = Math.floor(Math.random() * 90000) + 10000;
-
-            currentDocType = type;
-
+            const today        = new Date().toLocaleDateString();
+            const docNumber    = Math.floor(Math.random() * 90000) + 10000;
+            currentDocType     = type;
             if (type === 'workorder') {
                 currentDocument = generateWorkOrder(docNumber, today, projectName, customerName, projectNotes);
                 document.getElementById('modalTitle').textContent = 'Work Order Preview';
@@ -1213,83 +876,46 @@
                 currentDocument = generateChangeOrder(docNumber, today, projectName, customerName, projectNotes);
                 document.getElementById('modalTitle').textContent = 'Change Order Preview';
             }
-
             document.getElementById('documentPreview').textContent = currentDocument;
             document.getElementById('documentModal').classList.add('show');
         }
 
         function generateWorkOrder(number, date, project, customer, notes) {
-            const subtotal = lineItems.reduce((sum, item) => sum + item.total, 0);
-            const overheadPercent = parseFloat(document.getElementById('overheadPercent').value) || 0;
-            const profitPercent = parseFloat(document.getElementById('profitPercent').value) || 0;
-            const overheadAmount = subtotal * (overheadPercent / 100);
-            const profitAmount = subtotal * (profitPercent / 100);
-            const customerTotal = subtotal + overheadAmount + profitAmount;
-            const marginPercent = parseFloat(document.getElementById('grossMarginPercent').value) || 30;
-            const payoutPercent = 100 - marginPercent;
-            const workOrderTotal = customerTotal * (payoutPercent / 100);
-            
-            let doc = ``;
-            
-            // Add company header if available
-            if (companySettings.companyName) {
-                doc += `${companySettings.companyName}\n`;
-            }
-            if (companySettings.companyAddress) {
-                doc += `${companySettings.companyAddress}\n`;
-            }
-            if (companySettings.companyPhone) {
-                doc += `Phone: ${companySettings.companyPhone}\n`;
-            }
-            if (companySettings.companyName) {
-                doc += `\n`;
-            }
-            
-            doc += `═══════════════════════════════════════════════════════
+            const subtotal      = lineItems.reduce((sum, i) => sum + i.total, 0);
+            const overheadPct   = parseFloat(document.getElementById('overheadPercent').value) || 0;
+            const profitPct     = parseFloat(document.getElementById('profitPercent').value)   || 0;
+            const customerTotal = subtotal * (1 + overheadPct/100 + profitPct/100);
+            const marginPct     = parseFloat(document.getElementById('grossMarginPercent').value) || 30;
+            const workOrderTotal = customerTotal * ((100 - marginPct) / 100);
+
+            let doc = '';
+            if (companySettings.companyName)    doc += `${companySettings.companyName}\n`;
+            if (companySettings.companyAddress) doc += `${companySettings.companyAddress}\n`;
+            if (companySettings.companyPhone)   doc += `Phone: ${companySettings.companyPhone}\n`;
+            if (companySettings.companyName)    doc += `\n`;
+
+            doc += `\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550
                     WORK ORDER #${number}
-═══════════════════════════════════════════════════════
+\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550
 
 Date: ${date}
 Project: ${project}
 Customer: ${customer}`;
-
-            if (companySettings.pmName) {
-                doc += `\nProject Manager: ${companySettings.pmName}`;
-            }
-            if (companySettings.pmPhone) {
-                doc += `\nPM Phone: ${companySettings.pmPhone}`;
-            }
-            if (companySettings.pmEmail) {
-                doc += `\nPM Email: ${companySettings.pmEmail}`;
-            }
-
-            doc += `
-
-───────────────────────────────────────────────────────
+            if (companySettings.pmName)  doc += `\nProject Manager: ${companySettings.pmName}`;
+            if (companySettings.pmPhone) doc += `\nPM Phone: ${companySettings.pmPhone}`;
+            if (companySettings.pmEmail) doc += `\nPM Email: ${companySettings.pmEmail}`;
+            doc += `\n\n\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500
 SCOPE OF WORK
-───────────────────────────────────────────────────────
-
-`;
-            
+\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\n\n`;
             lineItems.forEach(item => {
                 doc += `${item.name}\n`;
                 doc += `  Quantity: ${item.quantity.toFixed(2)} ${item.unit} @ $${item.unitPrice.toFixed(2)}/${item.unit}\n`;
                 doc += `  Cost: $${item.total.toFixed(2)}\n\n`;
             });
-
-            if (notes) {
-                doc += `───────────────────────────────────────────────────────
-NOTES
-───────────────────────────────────────────────────────
-
-${notes}
-
-`;
-            }
-
-            doc += `───────────────────────────────────────────────────────
+            if (notes) doc += `\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\nNOTES\n\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\n\n${notes}\n\n`;
+            doc += `\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500
 TOTAL AMOUNT DUE TO SUBCONTRACTOR: $${workOrderTotal.toFixed(2)}
-───────────────────────────────────────────────────────
+\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500
 
 Payment terms: Due upon completion of work described above.
 
@@ -1297,107 +923,78 @@ Subcontractor Signature: _________________________
 
 Date: _________________________
 
-═══════════════════════════════════════════════════════`;
-
+\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550`;
             return doc;
         }
 
         function generateChangeOrder(number, date, project, customer, notes) {
-            const subtotal = lineItems.reduce((sum, item) => sum + item.total, 0);
-            const overheadPercent = parseFloat(document.getElementById('overheadPercent').value) || 0;
-            const profitPercent = parseFloat(document.getElementById('profitPercent').value) || 0;
-            const overheadAmount = subtotal * (overheadPercent / 100);
-            const profitAmount = subtotal * (profitPercent / 100);
-            const customerTotal = subtotal + overheadAmount + profitAmount;
-            const today = new Date();
-            const month = today.toLocaleString('default', { month: 'long' });
-            const year = today.getFullYear();
-            
-            let doc = ``;
-            
-            // Add company header if available
-            if (companySettings.companyName) {
-                doc += `${companySettings.companyName}\n`;
-            }
-            if (companySettings.companyAddress) {
-                doc += `${companySettings.companyAddress}\n`;
-            }
-            if (companySettings.companyPhone) {
-                doc += `Phone: ${companySettings.companyPhone}\n`;
-            }
-            if (companySettings.companyName) {
-                doc += `\n`;
-            }
-            
-            doc += `
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+            const subtotal      = lineItems.reduce((sum, i) => sum + i.total, 0);
+            const overheadPct   = parseFloat(document.getElementById('overheadPercent').value) || 0;
+            const profitPct     = parseFloat(document.getElementById('profitPercent').value)   || 0;
+            const overheadAmt   = subtotal * (overheadPct / 100);
+            const profitAmt     = subtotal * (profitPct   / 100);
+            const customerTotal = subtotal + overheadAmt + profitAmt;
+            const todayObj      = new Date();
+            const month         = todayObj.toLocaleString('default', { month: 'long' });
+            const year          = todayObj.getFullYear();
+
+            let doc = '';
+            if (companySettings.companyName)    doc += `${companySettings.companyName}\n`;
+            if (companySettings.companyAddress) doc += `${companySettings.companyAddress}\n`;
+            if (companySettings.companyPhone)   doc += `Phone: ${companySettings.companyPhone}\n`;
+            if (companySettings.companyName)    doc += `\n`;
+
+            doc += `\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501
                         CHANGE ORDER
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501
 
                           No. ${number}
 
-The undersigned Owner(s) hereby enters into an agreement with the 
-Contractor to change the previously agreed to Scope of Work being 
-done under contract of the original work authorization, dated 
+The undersigned Owner(s) hereby enters into an agreement with the
+Contractor to change the previously agreed to Scope of Work being
+done under contract of the original work authorization, dated
 ${date} as follows:
 
 PROJECT: ${project}
 CUSTOMER: ${customer}`;
+            if (companySettings.pmName)  doc += `\nProject Manager: ${companySettings.pmName}`;
+            if (companySettings.pmPhone) doc += `\nPM Phone: ${companySettings.pmPhone}`;
+            doc += `\n\n\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500
 
-            if (companySettings.pmName) {
-                doc += `\nProject Manager: ${companySettings.pmName}`;
-            }
-            if (companySettings.pmPhone) {
-                doc += `\nPM Phone: ${companySettings.pmPhone}`;
-            }
-
-            doc += `
-
-───────────────────────────────────────────────────────────────
-
-SCOPE OF WORK CHANGES:
-
-`;
-            
-            lineItems.forEach((item, index) => {
-                doc += `${index + 1}. ${item.name} - ${item.quantity.toFixed(2)} ${item.unit} @ $${item.unitPrice.toFixed(2)}/${item.unit} = $${item.total.toFixed(2)}\n\n`;
+SCOPE OF WORK CHANGES:\n\n`;
+            lineItems.forEach((item, idx) => {
+                doc += `${idx + 1}. ${item.name} - ${item.quantity.toFixed(2)} ${item.unit} @ $${item.unitPrice.toFixed(2)}/${item.unit} = $${item.total.toFixed(2)}\n\n`;
             });
-
-            // Pad remaining lines if fewer than 6
             for (let i = lineItems.length + 1; i <= 6; i++) {
                 doc += `${i}. _______________________________________________________________\n\n`;
             }
-
-            if (notes) {
-                doc += `\nADDITIONAL NOTES:\n${notes}\n`;
-            }
-
+            if (notes) doc += `\nADDITIONAL NOTES:\n${notes}\n`;
             doc += `
-───────────────────────────────────────────────────────────────
+\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500
 
-All of the terms of the original work authorization shall apply 
-to this Change Order, unless otherwise stipulated in writing and 
+All of the terms of the original work authorization shall apply
+to this Change Order, unless otherwise stipulated in writing and
 agreed to by both parties.
 
 The total cost for the above described Scope of Work is:
 
 Materials & Labor Subtotal              $${subtotal.toFixed(2)}
-Overhead (${overheadPercent.toFixed(1)}%)                              $${overheadAmount.toFixed(2)}
-Profit (${profitPercent.toFixed(1)}%)                                $${profitAmount.toFixed(2)}
-                                        ─────────────────
+Overhead (${overheadPct.toFixed(1)}%)                              $${overheadAmt.toFixed(2)}
+Profit (${profitPct.toFixed(1)}%)                                $${profitAmt.toFixed(2)}
+                                        \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500
 Add to original contract amount         $${customerTotal.toFixed(2)}
 Deduct from original contract amount    $__________
 
-If the above sum is an additional charge, it is due and payable 
+If the above sum is an additional charge, it is due and payable
 upon completion of the Scope of Work described above.
 
-If the above sum is a credit, it shall be deducted from the final 
-contract payment or from the insurance payment, whichever the 
+If the above sum is a credit, it shall be deducted from the final
+contract payment or from the insurance payment, whichever the
 case may be.
 
-───────────────────────────────────────────────────────────────
+\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500
                           JOB RECAP
-───────────────────────────────────────────────────────────────
+\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500
 
 Original Contract Amount            $__________
 Previous Change Orders (+)          $__________
@@ -1405,7 +1002,7 @@ Previous Change Orders (-)          $__________
 This Change Order                   $${customerTotal.toFixed(2)}
 Current Contract Total              $__________
 
-───────────────────────────────────────────────────────────────
+\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500
 
 Signed and agreed to this _____ day of ${month}, ${year}
 
@@ -1424,440 +1021,174 @@ Owner: _____________________________
 Contractor Representative: _____________________________
 
                           _____________________________`;
-            
-            if (companySettings.pmName) {
-                doc += `\n                          ${companySettings.pmName}`;
-            }
-
-            doc += `
-
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━`;
-
+            if (companySettings.pmName) doc += `\n                          ${companySettings.pmName}`;
+            doc += `\n\n\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501`;
             return doc;
         }
 
-        function closeDocumentModal() {
-            document.getElementById('documentModal').classList.remove('show');
-        }
+        function closeDocumentModal() { document.getElementById('documentModal').classList.remove('show'); }
 
-        function copyDocument() {
-            navigator.clipboard.writeText(currentDocument).then(() => {
-                showToast('Copied to clipboard!');
-            });
-        }
+        function copyDocument() { navigator.clipboard.writeText(currentDocument).then(() => showToast('Copied to clipboard!')); }
 
         function shareDocument() {
             if (navigator.share) {
-                navigator.share({
-                    title: currentDocType === 'workorder' ? 'Work Order' : 'Change Order',
-                    text: currentDocument
-                }).catch(() => {
-                    copyDocument();
-                });
-            } else {
-                copyDocument();
-            }
+                navigator.share({ title: currentDocType === 'workorder' ? 'Work Order' : 'Change Order', text: currentDocument }).catch(() => copyDocument());
+            } else { copyDocument(); }
         }
 
         function downloadPDF() {
             const { jsPDF } = window.jspdf;
-            const doc = new jsPDF();
-            
-            const projectName = document.getElementById('projectName').value || 'Untitled Project';
-            const customerName = document.getElementById('customerName').value || 'Customer';
-            const projectNotes = document.getElementById('projectNotes').value;
-            const today = new Date().toLocaleDateString();
-            const subtotal = lineItems.reduce((sum, item) => sum + item.total, 0);
-            const overheadPercent = parseFloat(document.getElementById('overheadPercent').value) || 0;
-            const profitPercent = parseFloat(document.getElementById('profitPercent').value) || 0;
-            const overheadAmount = subtotal * (overheadPercent / 100);
-            const profitAmount = subtotal * (profitPercent / 100);
-            const customerTotal = subtotal + overheadAmount + profitAmount;
-            const marginPercent = parseFloat(document.getElementById('grossMarginPercent').value) || 30;
-            const payoutPercent = 100 - marginPercent;
-            const workOrderTotal = customerTotal * (payoutPercent / 100);
-            
+            const doc           = new jsPDF();
+            const projectName   = document.getElementById('projectName').value  || 'Untitled Project';
+            const customerName  = document.getElementById('customerName').value || 'Customer';
+            const projectNotes  = document.getElementById('projectNotes').value;
+            const today         = new Date().toLocaleDateString();
+            const subtotal      = lineItems.reduce((sum, i) => sum + i.total, 0);
+            const overheadPct   = parseFloat(document.getElementById('overheadPercent').value)   || 0;
+            const profitPct     = parseFloat(document.getElementById('profitPercent').value)      || 0;
+            const overheadAmt   = subtotal * (overheadPct / 100);
+            const profitAmt     = subtotal * (profitPct   / 100);
+            const customerTotal = subtotal + overheadAmt + profitAmt;
+            const marginPct     = parseFloat(document.getElementById('grossMarginPercent').value) || 30;
+            const payoutPct     = 100 - marginPct;
+            const workOrderTotal = customerTotal * (payoutPct / 100);
             if (currentDocType === 'workorder') {
-                generateWorkOrderPDF(doc, projectName, customerName, projectNotes, today, subtotal, payoutPercent, workOrderTotal);
+                generateWorkOrderPDF(doc, projectName, customerName, projectNotes, today, subtotal, payoutPct, workOrderTotal);
             } else {
-                generateChangeOrderPDF(doc, projectName, customerName, projectNotes, today, subtotal, overheadPercent, profitPercent, overheadAmount, profitAmount, customerTotal);
+                generateChangeOrderPDF(doc, projectName, customerName, projectNotes, today, subtotal, overheadPct, profitPct, overheadAmt, profitAmt, customerTotal);
             }
         }
 
         function generateWorkOrderPDF(doc, projectName, customerName, projectNotes, today, subtotal, payoutPercent, workOrderTotal) {
             const docNumber = Math.floor(Math.random() * 90000) + 10000;
-            let yPos = 20;
-            
-            // Add logo if available with more space
-            if (companySettings.logo) {
-                try {
-                    doc.addImage(companySettings.logo, 'PNG', 20, yPos, 150, 20);
-                    yPos += 25;
-                } catch (e) {
-                    console.log('Logo could not be added to PDF');
-                }
-            }
-            
-            // Company info header
-            if (companySettings.companyName) {
-                doc.setFontSize(10);
-                doc.setFont(undefined, 'bold');
-                doc.text(companySettings.companyName, 20, yPos);
-                yPos += 5;
-            }
-            if (companySettings.companyAddress) {
-                doc.setFontSize(9);
-                doc.setFont(undefined, 'normal');
-                doc.text(companySettings.companyAddress, 20, yPos);
-                yPos += 4;
-            }
-            if (companySettings.companyPhone) {
-                doc.text(`Phone: ${companySettings.companyPhone}`, 20, yPos);
-                yPos += 8;
-            } else if (companySettings.companyName) {
-                yPos += 5;
-            }
-            
-            // Header
-            doc.setFontSize(20);
-            doc.setFont(undefined, 'bold');
-            doc.text('WORK ORDER', 105, yPos, { align: 'center' });
-            
-            yPos += 10;
-            doc.setFontSize(12);
-            doc.text(`No. ${docNumber}`, 105, yPos, { align: 'center' });
-            
-            yPos += 15;
-            doc.setFontSize(10);
-            doc.setFont(undefined, 'normal');
-            doc.text(`Date: ${today}`, 20, yPos);
-            yPos += 7;
-            doc.text(`Project: ${projectName}`, 20, yPos);
-            yPos += 7;
-            doc.text(`Customer: ${customerName}`, 20, yPos);
-            
-            if (companySettings.pmName) {
-                yPos += 7;
-                doc.text(`Project Manager: ${companySettings.pmName}`, 20, yPos);
-            }
-            if (companySettings.pmPhone) {
-                yPos += 7;
-                doc.text(`PM Phone: ${companySettings.pmPhone}`, 20, yPos);
-            }
-            if (companySettings.pmEmail) {
-                yPos += 7;
-                doc.text(`PM Email: ${companySettings.pmEmail}`, 20, yPos);
-            }
-            
-            yPos += 15;
-            
-            // Scope of Work
-            doc.setFont(undefined, 'bold');
-            doc.setFillColor(212, 175, 55);
-            doc.rect(20, yPos - 5, 170, 8, 'F');
-            doc.text('SCOPE OF WORK', 105, yPos, { align: 'center' });
-            
-            yPos += 10;
-            doc.setFont(undefined, 'normal');
-            
+            let y = 20;
+            if (companySettings.logo) { try { doc.addImage(companySettings.logo, 'PNG', 20, y, 150, 20); y += 25; } catch(e){} }
+            if (companySettings.companyName)    { doc.setFontSize(10); doc.setFont(undefined,'bold');   doc.text(companySettings.companyName, 20, y); y += 5; }
+            if (companySettings.companyAddress) { doc.setFontSize(9);  doc.setFont(undefined,'normal'); doc.text(companySettings.companyAddress, 20, y); y += 4; }
+            if (companySettings.companyPhone)   { doc.text(`Phone: ${companySettings.companyPhone}`, 20, y); y += 8; }
+            else if (companySettings.companyName) { y += 5; }
+            doc.setFontSize(20); doc.setFont(undefined,'bold');
+            doc.text('WORK ORDER', 105, y, { align:'center' }); y += 10;
+            doc.setFontSize(12); doc.text(`No. ${docNumber}`, 105, y, { align:'center' }); y += 15;
+            doc.setFontSize(10); doc.setFont(undefined,'normal');
+            doc.text(`Date: ${today}`, 20, y);       y += 7;
+            doc.text(`Project: ${projectName}`, 20, y); y += 7;
+            doc.text(`Customer: ${customerName}`, 20, y);
+            if (companySettings.pmName)  { y += 7; doc.text(`Project Manager: ${companySettings.pmName}`, 20, y); }
+            if (companySettings.pmPhone) { y += 7; doc.text(`PM Phone: ${companySettings.pmPhone}`, 20, y); }
+            if (companySettings.pmEmail) { y += 7; doc.text(`PM Email: ${companySettings.pmEmail}`, 20, y); }
+            y += 15;
+            doc.setFont(undefined,'bold'); doc.setFillColor(212,175,55);
+            doc.rect(20, y-5, 170, 8, 'F'); doc.text('SCOPE OF WORK', 105, y, { align:'center' }); y += 10;
+            doc.setFont(undefined,'normal');
             lineItems.forEach(item => {
-                if (yPos > 250) {
-                    doc.addPage();
-                    yPos = 20;
-                }
-                
-                doc.setFont(undefined, 'bold');
-                doc.text(`${item.name} - ${item.quantity.toFixed(2)} ${item.unit}`, 20, yPos);
-                yPos += 8;
+                if (y > 250) { doc.addPage(); y = 20; }
+                doc.setFont(undefined,'bold');
+                doc.text(`${item.name} - ${item.quantity.toFixed(2)} ${item.unit}`, 20, y); y += 8;
                 doc.setFontSize(10);
             });
-            
             if (projectNotes) {
-                yPos += 5;
-                if (yPos > 240) {
-                    doc.addPage();
-                    yPos = 20;
-                }
-                
-                doc.setFont(undefined, 'bold');
-                doc.setFillColor(212, 175, 55);
-                doc.rect(20, yPos - 5, 170, 8, 'F');
-                doc.text('NOTES', 105, yPos, { align: 'center' });
-                
-                yPos += 10;
-                doc.setFont(undefined, 'normal');
-                doc.setFontSize(9);
-                const splitNotes = doc.splitTextToSize(projectNotes, 170);
-                doc.text(splitNotes, 20, yPos);
-                yPos += (splitNotes.length * 5) + 10;
-                doc.setFontSize(10);
+                y += 5; if (y > 240) { doc.addPage(); y = 20; }
+                doc.setFont(undefined,'bold'); doc.setFillColor(212,175,55);
+                doc.rect(20, y-5, 170, 8, 'F'); doc.text('NOTES', 105, y, { align:'center' }); y += 10;
+                doc.setFont(undefined,'normal'); doc.setFontSize(9);
+                const sn = doc.splitTextToSize(projectNotes, 170);
+                doc.text(sn, 20, y); y += (sn.length * 5) + 10; doc.setFontSize(10);
             }
-            
-            // Total amount due
-            if (yPos > 230) {
-                doc.addPage();
-                yPos = 20;
-            }
-            
-            yPos += 15;
-            doc.setFont(undefined, 'bold');
-            doc.setFontSize(12);
-            doc.setFillColor(0, 0, 0);
-            doc.rect(20, yPos - 5, 170, 10, 'F');
-            doc.setTextColor(255, 255, 255);
-            doc.text(`TOTAL AMOUNT DUE: $${workOrderTotal.toFixed(2)}`, 105, yPos + 2, { align: 'center' });
-            doc.setTextColor(0, 0, 0);
-            
-            yPos += 20;
-            
-            // Signature line
-            doc.setFont(undefined, 'normal');
-            doc.setFontSize(9);
-            doc.line(20, yPos, 90, yPos);
-            yPos += 5;
-            doc.text('Subcontractor Signature', 20, yPos);
-            
-            yPos -= 5;
-            doc.line(120, yPos, 190, yPos);
-            yPos += 5;
-            doc.text('Date', 120, yPos);
-            
-            doc.save(`Work_Order_${docNumber}.pdf`);
-            showToast('PDF downloaded!');
+            if (y > 230) { doc.addPage(); y = 20; }
+            y += 15; doc.setFont(undefined,'bold'); doc.setFontSize(12);
+            doc.setFillColor(0,0,0); doc.rect(20, y-5, 170, 10, 'F');
+            doc.setTextColor(255,255,255);
+            doc.text(`TOTAL AMOUNT DUE: $${workOrderTotal.toFixed(2)}`, 105, y+2, { align:'center' });
+            doc.setTextColor(0,0,0); y += 20;
+            doc.setFont(undefined,'normal'); doc.setFontSize(9);
+            doc.line(20, y, 90, y); y += 5; doc.text('Subcontractor Signature', 20, y);
+            y -= 5; doc.line(120, y, 190, y); y += 5; doc.text('Date', 120, y);
+            doc.save(`Work_Order_${docNumber}.pdf`); showToast('PDF downloaded!');
         }
 
         function generateChangeOrderPDF(doc, projectName, customerName, projectNotes, today, subtotal, overheadPercent, profitPercent, overheadAmount, profitAmount, customerTotal) {
             const docNumber = Math.floor(Math.random() * 90000) + 10000;
-            let yPos = 20;
+            let y = 20;
             const todayObj = new Date();
-            const month = todayObj.toLocaleString('default', { month: 'long' });
-            const year = todayObj.getFullYear();
-            
-            // Add logo if available with more space
-            if (companySettings.logo) {
-                try {
-                    doc.addImage(companySettings.logo, 'PNG', 20, yPos, 150, 20);
-                    yPos += 25;
-                } catch (e) {
-                    console.log('Logo could not be added to PDF');
-                }
-            }
-            
-            // Company info header
-            if (companySettings.companyName) {
-                doc.setFontSize(10);
-                doc.setFont(undefined, 'bold');
-                doc.text(companySettings.companyName, 20, yPos);
-                yPos += 5;
-            }
-            if (companySettings.companyAddress) {
-                doc.setFontSize(9);
-                doc.setFont(undefined, 'normal');
-                doc.text(companySettings.companyAddress, 20, yPos);
-                yPos += 4;
-            }
-            if (companySettings.companyPhone) {
-                doc.text(`Phone: ${companySettings.companyPhone}`, 20, yPos);
-                yPos += 8;
-            } else if (companySettings.companyName) {
-                yPos += 5;
-            }
-            
-            // Header
-            doc.setFontSize(20);
-            doc.setFont(undefined, 'bold');
-            doc.text('CHANGE ORDER', 105, yPos, { align: 'center' });
-            
-            yPos += 10;
-            doc.setFontSize(12);
-            doc.text(`No. ${docNumber}`, 105, yPos, { align: 'center' });
-            
-            yPos += 15;
-            doc.setFontSize(9);
-            doc.setFont(undefined, 'normal');
-            const introText = 'The undersigned Owner(s) hereby enters into an agreement with the Contractor to change the previously agreed to Scope of Work being done under contract of the original work authorization, dated ' + today + ' as follows:';
-            const splitIntro = doc.splitTextToSize(introText, 170);
-            doc.text(splitIntro, 20, yPos);
-            yPos += (splitIntro.length * 5) + 8;
-            
-            doc.setFontSize(10);
-            doc.setFont(undefined, 'bold');
-            doc.text(`PROJECT: ${projectName}`, 20, yPos);
-            yPos += 6;
-            doc.text(`CUSTOMER: ${customerName}`, 20, yPos);
-            
-            if (companySettings.pmName) {
-                yPos += 6;
-                doc.setFont(undefined, 'normal');
-                doc.text(`Project Manager: ${companySettings.pmName}`, 20, yPos);
-            }
-            if (companySettings.pmPhone) {
-                yPos += 6;
-                doc.text(`PM Phone: ${companySettings.pmPhone}`, 20, yPos);
-            }
-            
-            yPos += 12;
-            
-            // Scope of Work Changes
-            doc.setFont(undefined, 'bold');
-            doc.setFillColor(212, 175, 55);
-            doc.rect(20, yPos - 5, 170, 8, 'F');
-            doc.text('SCOPE OF WORK CHANGES', 105, yPos, { align: 'center' });
-            
-            yPos += 10;
-            doc.setFont(undefined, 'normal');
-            doc.setFontSize(9);
-            
-            lineItems.forEach((item, index) => {
-                if (yPos > 250) {
-                    doc.addPage();
-                    yPos = 20;
-                }
-                
-                const lineText = `${index + 1}. ${item.name} - ${item.quantity.toFixed(2)} ${item.unit} @ $${item.unitPrice.toFixed(2)}/${item.unit} = $${item.total.toFixed(2)}`;
-                const splitLine = doc.splitTextToSize(lineText, 170);
-                doc.text(splitLine, 20, yPos);
-                yPos += (splitLine.length * 5) + 3;
+            const month    = todayObj.toLocaleString('default', { month:'long' });
+            const year     = todayObj.getFullYear();
+            if (companySettings.logo) { try { doc.addImage(companySettings.logo, 'PNG', 20, y, 150, 20); y += 25; } catch(e){} }
+            if (companySettings.companyName)    { doc.setFontSize(10); doc.setFont(undefined,'bold');   doc.text(companySettings.companyName, 20, y); y += 5; }
+            if (companySettings.companyAddress) { doc.setFontSize(9);  doc.setFont(undefined,'normal'); doc.text(companySettings.companyAddress, 20, y); y += 4; }
+            if (companySettings.companyPhone)   { doc.text(`Phone: ${companySettings.companyPhone}`, 20, y); y += 8; }
+            else if (companySettings.companyName) { y += 5; }
+            doc.setFontSize(20); doc.setFont(undefined,'bold');
+            doc.text('CHANGE ORDER', 105, y, { align:'center' }); y += 10;
+            doc.setFontSize(12); doc.text(`No. ${docNumber}`, 105, y, { align:'center' }); y += 15;
+            doc.setFontSize(9); doc.setFont(undefined,'normal');
+            const intro = doc.splitTextToSize('The undersigned Owner(s) hereby enters into an agreement with the Contractor to change the previously agreed to Scope of Work being done under contract of the original work authorization, dated ' + today + ' as follows:', 170);
+            doc.text(intro, 20, y); y += (intro.length * 5) + 8;
+            doc.setFontSize(10); doc.setFont(undefined,'bold');
+            doc.text(`PROJECT: ${projectName}`, 20, y); y += 6;
+            doc.text(`CUSTOMER: ${customerName}`, 20, y);
+            if (companySettings.pmName)  { y += 6; doc.setFont(undefined,'normal'); doc.text(`Project Manager: ${companySettings.pmName}`, 20, y); }
+            if (companySettings.pmPhone) { y += 6; doc.text(`PM Phone: ${companySettings.pmPhone}`, 20, y); }
+            y += 12;
+            doc.setFont(undefined,'bold'); doc.setFillColor(212,175,55);
+            doc.rect(20, y-5, 170, 8, 'F'); doc.text('SCOPE OF WORK CHANGES', 105, y, { align:'center' }); y += 10;
+            doc.setFont(undefined,'normal'); doc.setFontSize(9);
+            lineItems.forEach((item, idx) => {
+                if (y > 250) { doc.addPage(); y = 20; }
+                const lt = doc.splitTextToSize(`${idx+1}. ${item.name} - ${item.quantity.toFixed(2)} ${item.unit} @ $${item.unitPrice.toFixed(2)}/${item.unit} = $${item.total.toFixed(2)}`, 170);
+                doc.text(lt, 20, y); y += (lt.length * 5) + 3;
             });
-            
             if (projectNotes) {
-                yPos += 8;
-                if (yPos > 240) {
-                    doc.addPage();
-                    yPos = 20;
-                }
-                
-                doc.setFont(undefined, 'bold');
-                doc.text('ADDITIONAL NOTES:', 20, yPos);
-                yPos += 6;
-                doc.setFont(undefined, 'normal');
-                const splitNotes = doc.splitTextToSize(projectNotes, 170);
-                doc.text(splitNotes, 20, yPos);
-                yPos += (splitNotes.length * 5) + 8;
+                y += 8; if (y > 240) { doc.addPage(); y = 20; }
+                doc.setFont(undefined,'bold'); doc.text('ADDITIONAL NOTES:', 20, y); y += 6;
+                doc.setFont(undefined,'normal');
+                const sn = doc.splitTextToSize(projectNotes, 170);
+                doc.text(sn, 20, y); y += (sn.length * 5) + 8;
             }
-            
-            // Terms
-            if (yPos > 200) {
-                doc.addPage();
-                yPos = 20;
-            }
-            
-            yPos += 10;
+            if (y > 200) { doc.addPage(); y = 20; }
+            y += 10; doc.setFontSize(8);
+            const terms = doc.splitTextToSize('All of the terms of the original work authorization shall apply to this Change Order, unless otherwise stipulated in writing and agreed to by both parties.', 170);
+            doc.text(terms, 20, y); y += (terms.length * 4) + 8;
+            doc.setFontSize(10); doc.setFont(undefined,'bold');
+            doc.text('The total cost for the above described Scope of Work is:', 20, y); y += 8;
+            doc.setFont(undefined,'normal');
+            doc.text('Materials & Labor Subtotal', 20, y); doc.text(`$${subtotal.toFixed(2)}`, 190, y, { align:'right' }); y += 6;
+            doc.text(`Overhead (${overheadPercent.toFixed(1)}%)`, 20, y); doc.text(`$${overheadAmount.toFixed(2)}`, 190, y, { align:'right' }); y += 6;
+            doc.text(`Profit (${profitPercent.toFixed(1)}%)`, 20, y); doc.text(`$${profitAmount.toFixed(2)}`, 190, y, { align:'right' }); y += 2;
+            doc.line(140, y, 190, y); y += 6;
+            doc.setFont(undefined,'bold'); doc.text('Add to original contract amount', 20, y); doc.text(`$${customerTotal.toFixed(2)}`, 190, y, { align:'right' }); y += 6;
+            doc.setFont(undefined,'normal'); doc.text('Deduct from original contract amount', 20, y); doc.text('$__________', 190, y, { align:'right' }); y += 10;
             doc.setFontSize(8);
-            const termsText = 'All of the terms of the original work authorization shall apply to this Change Order, unless otherwise stipulated in writing and agreed to by both parties.';
-            const splitTerms = doc.splitTextToSize(termsText, 170);
-            doc.text(splitTerms, 20, yPos);
-            yPos += (splitTerms.length * 4) + 8;
-            
-            doc.setFontSize(10);
-            doc.setFont(undefined, 'bold');
-            doc.text('The total cost for the above described Scope of Work is:', 20, yPos);
-            yPos += 8;
-            
-            doc.setFont(undefined, 'normal');
-            doc.text('Materials & Labor Subtotal', 20, yPos);
-            doc.text(`$${subtotal.toFixed(2)}`, 190, yPos, { align: 'right' });
-            yPos += 6;
-            doc.text(`Overhead (${overheadPercent.toFixed(1)}%)`, 20, yPos);
-            doc.text(`$${overheadAmount.toFixed(2)}`, 190, yPos, { align: 'right' });
-            yPos += 6;
-            doc.text(`Profit (${profitPercent.toFixed(1)}%)`, 20, yPos);
-            doc.text(`$${profitAmount.toFixed(2)}`, 190, yPos, { align: 'right' });
-            yPos += 2;
-            doc.line(140, yPos, 190, yPos);
-            yPos += 6;
-            doc.setFont(undefined, 'bold');
-            doc.text('Add to original contract amount', 20, yPos);
-            doc.text(`$${customerTotal.toFixed(2)}`, 190, yPos, { align: 'right' });
-            yPos += 6;
-            doc.setFont(undefined, 'normal');
-            doc.text('Deduct from original contract amount', 20, yPos);
-            doc.text('$__________', 190, yPos, { align: 'right' });
-            
-            yPos += 10;
-            doc.setFontSize(8);
-            const paymentText = 'If the above sum is an additional charge, it is due and payable upon completion of the Scope of Work described above. If the above sum is a credit, it shall be deducted from the final contract payment or from the insurance payment, whichever the case may be.';
-            const splitPayment = doc.splitTextToSize(paymentText, 170);
-            doc.text(splitPayment, 20, yPos);
-            yPos += (splitPayment.length * 4) + 10;
-            
-            // Job Recap
-            if (yPos > 200) {
-                doc.addPage();
-                yPos = 20;
-            }
-            
-            doc.setFontSize(10);
-            doc.setFont(undefined, 'bold');
-            doc.setFillColor(212, 175, 55);
-            doc.rect(20, yPos - 5, 170, 8, 'F');
-            doc.text('JOB RECAP', 105, yPos, { align: 'center' });
-            
-            yPos += 10;
-            doc.setFont(undefined, 'normal');
-            doc.text('Original Contract Amount', 20, yPos);
-            doc.text('$__________', 190, yPos, { align: 'right' });
-            yPos += 6;
-            doc.text('Previous Change Orders (+)', 20, yPos);
-            doc.text('$__________', 190, yPos, { align: 'right' });
-            yPos += 6;
-            doc.text('Previous Change Orders (-)', 20, yPos);
-            doc.text('$__________', 190, yPos, { align: 'right' });
-            yPos += 6;
-            doc.setFont(undefined, 'bold');
-            doc.text('This Change Order', 20, yPos);
-            doc.text(`$${customerTotal.toFixed(2)}`, 190, yPos, { align: 'right' });
-            yPos += 6;
-            doc.text('Current Contract Total', 20, yPos);
-            doc.text('$__________', 190, yPos, { align: 'right' });
-            
-            // Signature
-            yPos += 15;
-            doc.setFontSize(9);
-            doc.setFont(undefined, 'normal');
-            doc.text(`Signed and agreed to this _____ day of ${month}, ${year}`, 20, yPos);
-            
-            yPos += 15;
-            doc.line(20, yPos, 90, yPos);
-            yPos += 5;
-            doc.text('Owner Signature', 20, yPos);
-            
-            yPos += 10;
-            doc.line(20, yPos, 90, yPos);
-            yPos += 5;
-            doc.text('Print Name of Owner', 20, yPos);
-            
-            yPos -= 20;
-            doc.line(120, yPos, 190, yPos);
-            yPos += 5;
-            doc.text('Contractor Representative', 120, yPos);
-            if (companySettings.pmName) {
-                yPos += 5;
-                doc.setFont(undefined, 'italic');
-                doc.text(companySettings.pmName, 120, yPos);
-                doc.setFont(undefined, 'normal');
-                yPos += 5;
-            } else {
-                yPos += 10;
-            }
-            doc.line(120, yPos, 190, yPos);
-            yPos += 5;
-            doc.text('Print Name of Representative', 120, yPos);
-            
-            doc.save(`Change_Order_${docNumber}.pdf`);
-            showToast('PDF downloaded!');
+            const payTxt = doc.splitTextToSize('If the above sum is an additional charge, it is due and payable upon completion of the Scope of Work described above. If the above sum is a credit, it shall be deducted from the final contract payment or from the insurance payment, whichever the case may be.', 170);
+            doc.text(payTxt, 20, y); y += (payTxt.length * 4) + 10;
+            if (y > 200) { doc.addPage(); y = 20; }
+            doc.setFontSize(10); doc.setFont(undefined,'bold'); doc.setFillColor(212,175,55);
+            doc.rect(20, y-5, 170, 8, 'F'); doc.text('JOB RECAP', 105, y, { align:'center' }); y += 10;
+            doc.setFont(undefined,'normal');
+            doc.text('Original Contract Amount', 20, y); doc.text('$__________', 190, y, { align:'right' }); y += 6;
+            doc.text('Previous Change Orders (+)', 20, y); doc.text('$__________', 190, y, { align:'right' }); y += 6;
+            doc.text('Previous Change Orders (-)', 20, y); doc.text('$__________', 190, y, { align:'right' }); y += 6;
+            doc.setFont(undefined,'bold');
+            doc.text('This Change Order', 20, y); doc.text(`$${customerTotal.toFixed(2)}`, 190, y, { align:'right' }); y += 6;
+            doc.text('Current Contract Total', 20, y); doc.text('$__________', 190, y, { align:'right' }); y += 15;
+            doc.setFontSize(9); doc.setFont(undefined,'normal');
+            doc.text(`Signed and agreed to this _____ day of ${month}, ${year}`, 20, y); y += 15;
+            doc.line(20, y, 90, y); y += 5; doc.text('Owner Signature', 20, y); y += 10;
+            doc.line(20, y, 90, y); y += 5; doc.text('Print Name of Owner', 20, y); y -= 20;
+            doc.line(120, y, 190, y); y += 5; doc.text('Contractor Representative', 120, y);
+            if (companySettings.pmName) { y += 5; doc.setFont(undefined,'italic'); doc.text(companySettings.pmName, 120, y); doc.setFont(undefined,'normal'); y += 5; } else { y += 10; }
+            doc.line(120, y, 190, y); y += 5; doc.text('Print Name of Representative', 120, y);
+            doc.save(`Change_Order_${docNumber}.pdf`); showToast('PDF downloaded!');
         }
 
         function showToast(message) {
             const toast = document.getElementById('toast');
             toast.textContent = message;
             toast.classList.add('show');
-            setTimeout(() => {
-                toast.classList.remove('show');
-            }, 2000);
+            setTimeout(() => toast.classList.remove('show'), 2000);
         }
 
-        // Initialize
+        // ─── INIT ─────────────────────────────────────────────────────────────────────
         loadData();
     </script>
 </body>
